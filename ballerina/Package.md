@@ -1,7 +1,9 @@
 
 ## Overview
 
-This is a generated connector for the [OpenAI Fine-tunes API](https://platform.openai.com/docs/api-reference/fine-tuning) OpenAPI specification. OpenAI is an American artificial intelligence research laboratory consisting of a non-profit corporation and a for-profit subsidiary. OpenAI conducts AI research with the declared intention of promoting and developing friendly AI. The OpenAI Fine-tunes API provides a way to customize new AI models developed by OpenAI for your specific needs.
+[OpenAI](https://openai.com/), an AI research organization focused on creating friendly AI for humanity, offers the [OpenAI API](https://platform.openai.com/docs/api-reference/introduction) to access its powerful AI models for tasks like natural language processing and image generation.
+
+The [OpenAI Fine-tunes API](https://platform.openai.com/docs/guides/fine-tuning) allows users to customize OpenAI's AI models to meet specific needs. The `ballarinax/openai.finetune` package facilitates connection to this API.
 
 ## Setup guide
 
@@ -12,15 +14,16 @@ To use the OpenAI Connector, you must have access to the OpenAI API through a [O
 1. Open the [OpenAI Platform Dashboard](https://platform.openai.com).
 
 2. Navigate to Dashboard -> API keys
-<img src=https://raw.githubusercontent.com/KATTA-00/module-ballerinax-openai.finetunes/docs/docs/setup/resources/api-key-dashboard.png alt="OpenAI platform dashboard" style="width: 70%;">
+<img src=https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-openai.finetunes/main/docs/setup/resources/navigate-api-key-dashboard.png alt="OpenAI Platform" style="width: 70%;">
 
 3. Click on the "Create new secret key" button
-<img src=https://raw.githubusercontent.com/KATTA-00/module-ballerinax-openai.finetunes/docs/docs/setup/resources/create-new-secrete-key.png alt="OpenAI platform api key" style="width: 70%;">
+<img src=https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-openai.finetunes/main/docs/setup/resources/api-key-dashboard.png alt="OpenAI Platform" style="width: 70%;">
 
 4. Fill the details and click on Create secret key
-<img src=https://raw.githubusercontent.com/KATTA-00/module-ballerinax-openai.finetunes/docs/docs/setup/resources/saved-key.png alt="OpenAI platform api key" style="width: 70%;">
+<img src=https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-openai.finetunes/main/docs/setup/resources/create-new-secret-key.png alt="OpenAI Platform" style="width: 70%;">
 
-5. Store the API key securely to use in your application
+5. Store the API key securely to use in your application 
+<img src=https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-openai.finetunes/main/docs/setup/resources/saved-key.png alt="OpenAI Platform" style="width: 70%;">
 
 ## Quickstart
 
