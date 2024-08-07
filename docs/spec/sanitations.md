@@ -23,7 +23,7 @@ This document records the sanitation done on top of the official OpenAPI specifi
    - **Changed Schemas**: `CreateCompletionRequest`,`ChatCompletionStreamOptions`,`CreateChatCompletionRequest`
 
    - **Original**:
-      - defaullt: `null`
+      - default: `null`
 
    - **Updated**:
       - Removed the `default` parameter 
