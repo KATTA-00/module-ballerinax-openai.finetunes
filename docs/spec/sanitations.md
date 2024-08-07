@@ -1,24 +1,47 @@
-_Author_:  <!-- TODO: Add author name --> \
-_Created_: <!-- TODO: Add date --> \
-_Updated_: <!-- TODO: Add date --> \
+_Authors_: @kanishkagu  \
+_Created_: 2024/08/05 \
+_Updated_: 2024/08/05 \
 _Edition_: Swan Lake
 
 # Sanitation for OpenAPI specification
 
-This document records the sanitation done on top of the official OpenAPI specification from OpenAI Finetunes. 
-The OpenAPI specification is obtained from (TODO: Add source link).
-These changes are done in order to improve the overall usability, and as workarounds for some known language limitations.
+This document records the sanitation done on top of the official OpenAPI specification from OpenAI Finetune. The OpenAPI specification is obtained from the [OpenAPI specification for the OpenAI API](https://github.com/openai/openai-openapi/blob/master/openapi.yaml). These changes are implemented to enhance the overall usability and readability of the generated client.
 
-[//]: # (TODO: Add sanitation details)
-1. 
-2. 
-3. 
+1. **Change the status_details property parameters of the 'OpenAIFile' object**:
+   - **Original**:
+      - Deprecated: `true`
+      - Nullable parameter: Not included
+
+   - **Updated**:
+      - Removed the `deprecated` parameter
+      - Added the `nullable` parameter as `true`
+
+   - **Reasons**: The original configuration was generated successfully, but it caused a compile-time error. Updating the parameters resolved this error, enhancing the overall functionality and ensuring smooth compilation.
+
+
+2. **Removed the `default:null` property of certain schemas**:
+   - **Changed Schemas**: `CreateCompletionRequest`,`ChatCompletionStreamOptions`,`CreateChatCompletionRequest`
+
+   - **Original**:
+      - defaullt: `null`
+
+   - **Updated**:
+      - Removed the `default` parameter 
+
+   - **Reason**: This change is done as a workaround for ballerina openapi tool not allowing to generate the client.
+
+3. **Removing the Required Field from the Error Property of FineTuningJob Object**
+   - **Original**: The error property of the FineTuningJob object included the code, message, and param as required.
+
+   - **Updated**: Removed the required field from the error property.
+
+   - **Reasons**: The response does not include the code, message, and param, causing an error of missing required fields when converting.
 
 ## OpenAPI cli command
 
 The following command was used to generate the Ballerina client from the OpenAPI specification. The command should be executed from the repository root directory.
 
 ```bash
-# TODO: Add OpenAPI CLI command used to generate the client
+bal openapi -i docs/spec/openapi.yaml --mode client --license docs/license.txt -o ballerina --tags 'Fine-tuning','Files','Models'
 ```
 Note: The license year is hardcoded to 2024, change if necessary.
