@@ -19,7 +19,7 @@ This document records the sanitation done on top of the official OpenAPI specifi
    - **Reasons**: The original configuration was generated successfully, but it caused a compile-time error. Updating the parameters resolved this error, enhancing the overall functionality and ensuring smooth compilation.
 
 
-2. **Removed the `default:null` property of certain schemas**:
+2. **Removed the `default:null` property from the following schemas**:
    - **Changed Schemas**: `CreateCompletionRequest`,`ChatCompletionStreamOptions`,`CreateChatCompletionRequest`
 
    - **Original**:
