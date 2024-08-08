@@ -102,7 +102,7 @@ public isolated client class Client {
     # + file_id - The ID of the file to use for this request.
     # + headers - Headers to be sent with the request 
     # + return - OK 
-    resource isolated function get files/[string file_id]/content(map<string|string[]> headers = {}) returns string|error {
+    resource isolated function get files/[string file_id]/content(map<string|string[]> headers = {}) returns byte[]|error {
         string resourcePath = string `/files/${getEncodedUri(file_id)}/content`;
         return self.clientEp->get(resourcePath, headers);
     }

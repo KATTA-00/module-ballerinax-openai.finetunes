@@ -168,6 +168,12 @@ public type ListFineTuningJobCheckpointsResponse record {
     boolean has_more;
 };
 
+public type OkFineTuningJob record {|
+    *http:Ok;
+    FineTuningJob body;
+    map<string|string[]> headers;
+|};
+
 public type DeleteModelResponse record {
     string id;
     boolean deleted;
@@ -299,6 +305,12 @@ public type CreateFineTuningJobRequest_integrations record {
     "wandb" 'type;
     CreateFineTuningJobRequest_wandb wandb;
 };
+
+public type OkOpenAIFile record {|
+    *http:Ok;
+    OpenAIFile body;
+    map<string|string[]> headers;
+|};
 
 public type ListModelsResponse record {
     "list" 'object;
