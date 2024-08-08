@@ -37,6 +37,13 @@ This document records the sanitation done on top of the official OpenAPI specifi
 
    - **Reasons**: The response does not include the code, message, and param, causing an error of missing required fields when converting.
 
+4. **Changed the response content type in `/files/{file_id}/content` endpoint**
+   - **Original**: The response content type of the `/files/{file_id}/content` endpoint was originally `application/json`.
+
+   - **Updated**: The content type has been changed to `application/octet-stream`.
+
+   - **Reasons**: The server's actual response content type was `application/octet-stream`.
+
 ## OpenAPI cli command
 
 The following command was used to generate the Ballerina client from the OpenAPI specification. The command should be executed from the repository root directory.
