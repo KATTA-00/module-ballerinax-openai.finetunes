@@ -24,12 +24,6 @@ listener http:Listener httpListener = new (9090);
 
 http:Service mockService = service object {
 
-    // # Delete a file.
-    // #
-    // # + file_id - The ID of the file to use for this request.
-    // # + return - OK 
-    // resource function delete files/[string file_id]() returns DeleteFileResponse {
-    // }
 
     // # Delete a fine-tuned model. You must have the Owner role in your organization to delete a model.
     // #
@@ -37,6 +31,61 @@ http:Service mockService = service object {
     // # + return - OK 
     // resource function delete models/[string model]() returns DeleteModelResponse {
     // }
+
+    # Immediately cancel a fine-tune job.
+    #
+    # + fine_tuning_job_id - The ID of the fine-tuning job to cancel.
+    # + return - OK 
+    resource function post fine_tuning/jobs/[string fine_tuning_job_id]/cancel() returns OkFineTuningJob {
+
+        OkFineTuningJob response = {
+            body:{
+                "object": "fine_tuning.job",
+                "id": fine_tuning_job_id,
+                "model": "gpt-3.5-turbo-0125",
+                "created_at": 1723110882,
+                "finished_at": null,
+                "fine_tuned_model": null,
+                "organization_id": "org-Gzp0rlPk9gw4JaNXmPqDJ1H4",
+                "result_files": [],
+                "status": "validating_files",
+                "validation_file": null,
+                "training_file": "file-JZMH9Xxnt7Hg2io6N2kzmlzM",
+                "hyperparameters": {
+                    "n_epochs": "auto",
+                    "batch_size": "auto",
+                    "learning_rate_multiplier": "auto"
+                },
+                "trained_tokens": null,
+                "error": {},
+                "user_provided_suffix": null,
+                "seed": 1776549854,
+                "estimated_finish": null,
+                "integrations": []
+                },
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            };
+
+        return response;
+    }
+
+    # Delete a file.
+    #
+    # + file_id - The ID of the file to use for this request.
+    # + return - OK 
+    resource function delete files/[string file_id]() returns DeleteFileResponse {
+
+        DeleteFileResponse response = {
+            'object: "file",
+            id: file_id,
+            deleted: true
+        };
+
+        return response;
+
+    }
 
     # Returns a list of files that belong to the user's organization.
     #
@@ -369,12 +418,6 @@ http:Service mockService = service object {
 
     }
 
-    // # Immediately cancel a fine-tune job.
-    // #
-    // # + fine_tuning_job_id - The ID of the fine-tuning job to cancel.
-    // # + return - OK 
-    // resource function post fine_tuning/jobs/[string fine_tuning_job_id]/cancel() returns OkFineTuningJob {
-    // }
 };
 
 

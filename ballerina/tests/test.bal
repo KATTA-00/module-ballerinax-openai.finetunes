@@ -39,9 +39,7 @@ isolated function testListModels() returns error? {
     test:assertTrue(modelsResponse.hasKey("data"), "Response does not have the key 'data'");
 }
 
-@test:Config {
-    dependsOn: [testListModels]
-}
+@test:Config {}
 isolated function testRetrieveModel() returns error? {
 
     ListModelsResponse modelsResponse = check baseClient->/models.get();
@@ -58,7 +56,7 @@ isolated function testRetrieveModel() returns error? {
 }
 
 // @test:Config {
-//     dependsOn: [testCreateFineTuningJob, testListModels]
+//     dependsOn: [testCreateFineTuningJob, testListModels, testRetrieveModel]
 // }
 // isolated function testDeleteModel() returns error? {
 
@@ -121,6 +119,13 @@ isolated function testCreateFile() returns error? {
 
     test:assertEquals(fileResponse.purpose, "fine-tune", "Purpose mismatched");
     test:assertTrue(fileResponse.id !is "", "File id is empty");
+
+    string fileId = fileResponse.id;
+
+    DeleteFileResponse fileResponseDelete = check baseClient->/files/[fileId].delete();
+
+    test:assertEquals(fileResponseDelete.id, fileId, "File id mismatched");
+    test:assertTrue(fileResponseDelete.hasKey("object"), "Response does not have the key 'object'");
 }
 
 @test:Config {
@@ -157,27 +162,27 @@ isolated function testDownloadFile() returns error? {
     byte[] fileContentDownload = check baseClient->/files/[fileId]/content.get();
 }
 
-// @test:Config {
-//     dependsOn: [testCreateFile, testRetrieveFile, testListFiles]
-// }
-// isolated function testDeleteFile() returns error? {
+@test:Config {
+    dependsOn: [testCreateFile, testRetrieveFile, testListFiles, testDownloadFile]
+}
+isolated function testDeleteFile() returns error? {
     
-//     byte[] fileContent = check io:fileReadBytes(fileName);
+    byte[] fileContent = check io:fileReadBytes(fileName);
 
-//     CreateFileRequest fileRequest = {
-//         file: {fileContent, fileName},
-//         purpose: "fine-tune"
-//     };
+    CreateFileRequest fileRequest = {
+        file: {fileContent, fileName},
+        purpose: "fine-tune"
+    };
 
-//     OpenAIFile fileResponse = check baseClient->/files.post(fileRequest);
+    OpenAIFile fileResponse = check baseClient->/files.post(fileRequest);
 
-//     string fileId = fileResponse.id;
+    string fileId = fileResponse.id;
 
-//     DeleteFileResponse fileResponseDelete = check baseClient->/files/[fileId].delete();
+    DeleteFileResponse fileResponseDelete = check baseClient->/files/[fileId].delete();
 
-//     test:assertEquals(fileResponseDelete.id, fileId, "File id mismatched");
-//     test:assertTrue(fileResponseDelete.hasKey("object"), "Response does not have the key 'object'");
-// }
+    test:assertEquals(fileResponseDelete.id, fileId, "File id mismatched");
+    test:assertTrue(fileResponseDelete.hasKey("object"), "Response does not have the key 'object'");
+}
 
 // // Fine Tuning Jobs
 
@@ -191,7 +196,7 @@ isolated function testListPaginatedFineTuningJobs() returns error? {
 }
 
 @test:Config {
-    dependsOn: [testListPaginatedFineTuningJobs, testListModels, testCreateFile, testRetrieveFile, testListFiles]
+    dependsOn: [testListPaginatedFineTuningJobs, testListModels, testCreateFile, testRetrieveFile, testListFiles, testDownloadFile, testDeleteFile]
 }
 isolated function testCreateFineTuningJob() returns error? {
 
@@ -221,6 +226,12 @@ isolated function testCreateFineTuningJob() returns error? {
     test:assertTrue(fineTuneResponse.hasKey("object"), "Response does not have the key 'object'");
     test:assertTrue(fineTuneResponse.hasKey("id"), "Response does not have the key 'id'");
 
+    string fine_tuning_job_id = fineTuneResponse.id;
+
+    FineTuningJob jobResponse = check baseClient->/fine_tuning/jobs/[fine_tuning_job_id]/cancel.post();
+
+    test:assertEquals(jobResponse.id, fine_tuning_job_id, "Job id mismatched");
+    test:assertTrue(jobResponse.hasKey("object"), "Response does not have the key 'object'");
 }
 
 @test:Config {
@@ -236,7 +247,6 @@ isolated function testRetrieveFineTuningJob() returns error? {
 
     test:assertEquals(jobResponse.id, jobId, "Job id mismatched");
     test:assertTrue(jobResponse.hasKey("object"), "Response does not have the key 'object'");
-
 }
 
 @test:Config {
@@ -254,7 +264,6 @@ isolated function testListFineTuningEvents() returns error? {
 
     test:assertEquals(eventsResponse.'object, "list", "Object type mismatched");
     test:assertTrue(eventsResponse.hasKey("data"), "Response does not have the key 'data'");
-
 }
 
 @test:Config {
@@ -272,7 +281,6 @@ isolated function testListFineTuningJobCheckpoints() returns error? {
 
     test:assertEquals(checkpointsResponse.'object, "list", "Object type mismatched");
     test:assertTrue(checkpointsResponse.hasKey("data"), "Response does not have the key 'data'");
-
 }
 
 // @test:Config {
