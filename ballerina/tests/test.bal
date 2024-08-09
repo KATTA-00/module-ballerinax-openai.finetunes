@@ -23,8 +23,9 @@ import ballerina/io;
 configurable boolean isLiveServer = ?;
 configurable string token = ?;
 configurable string serviceUrl = isLiveServer ? "https://api.openai.com/v1" : "http://localhost:9090";
-final ConnectionConfig config = {auth: {token}};
+configurable string apiKey = isLiveServer ? token : "";
 
+final ConnectionConfig config = {auth: {token: apiKey}};
 final Client baseClient = check new Client(config, serviceUrl);
 final string fileName = "sample.jsonl";
 
@@ -246,7 +247,7 @@ isolated function testRetrieveFineTuningJob() returns error? {
     FineTuningJob jobResponse = check baseClient->/fine_tuning/jobs/[jobId].get();
 
     test:assertEquals(jobResponse.id, jobId, "Job id mismatched");
-    test:assertTrue(jobResponse.hasKey("object"), "Response does not have the key 'object'");
+    test:assertEquals(jobResponse.'object, "fine_tuning.job", "Response does not have the key 'object'");
 }
 
 @test:Config {
