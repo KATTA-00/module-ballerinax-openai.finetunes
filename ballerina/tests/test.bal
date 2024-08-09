@@ -18,7 +18,7 @@
 // under the License.
 
 import ballerina/test;
-import ballerina/io;
+// import ballerina/io;
 
 configurable boolean isLiveServer = ?;
 configurable string token = ?;
@@ -27,7 +27,10 @@ configurable string apiKey = isLiveServer ? token : "";
 
 final ConnectionConfig config = {auth: {token: apiKey}};
 final Client baseClient = check new Client(config, serviceUrl);
+
 final string fileName = "sample.jsonl";
+const string fileId = "file-1";
+const byte[] fileContent = [123,13,10,32,32,32,32,34,112,114,111,109,112,116,34,58,32,34,87,104,97,116,32,105,115,32,116,104,101,32,97,110,115,119,101,114,32,116,111,32,50,43,50,34,44,13,10,32,32,32,32,34,99,111,109,112,108,101,116,105,111,110,34,58,32,34,52,34,13,10,125];
 
 // Models
 
@@ -109,8 +112,6 @@ isolated function testListFiles() returns error? {
 }
 isolated function testCreateFile() returns error? {
 
-    byte[] fileContent = check io:fileReadBytes(fileName);
-
     CreateFileRequest fileRequest = {
         file: {fileContent, fileName},
         purpose: "fine-tune"
@@ -149,8 +150,6 @@ isolated function testRetrieveFile() returns error? {
 }
 isolated function testDownloadFile() returns error? {
 
-    byte[] fileContent = check io:fileReadBytes(fileName);
-
     CreateFileRequest fileRequest = {
         file: {fileContent, fileName},
         purpose: "fine-tune"
@@ -168,8 +167,6 @@ isolated function testDownloadFile() returns error? {
 }
 isolated function testDeleteFile() returns error? {
     
-    byte[] fileContent = check io:fileReadBytes(fileName);
-
     CreateFileRequest fileRequest = {
         file: {fileContent, fileName},
         purpose: "fine-tune"
@@ -200,8 +197,6 @@ isolated function testListPaginatedFineTuningJobs() returns error? {
     dependsOn: [testListPaginatedFineTuningJobs, testListModels, testCreateFile, testRetrieveFile, testListFiles, testDownloadFile, testDeleteFile]
 }
 isolated function testCreateFineTuningJob() returns error? {
-
-    byte[] fileContent = check io:fileReadBytes(fileName);
 
     CreateFileRequest fileRequest = {
         file: {fileContent, fileName},
