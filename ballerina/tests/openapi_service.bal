@@ -25,12 +25,20 @@ listener http:Listener httpListener = new (9090);
 http:Service mockService = service object {
 
 
-    // # Delete a fine-tuned model. You must have the Owner role in your organization to delete a model.
-    // #
-    // # + model - The model to delete
-    // # + return - OK 
-    // resource function delete models/[string model]() returns DeleteModelResponse {
-    // }
+    # Delete a fine-tuned model. You must have the Owner role in your organization to delete a model.
+    #
+    # + model - The model to delete
+    # + return - OK 
+    resource function delete models/[string model]() returns DeleteModelResponse {
+
+        DeleteModelResponse response = {
+            'object: "model",
+            id: model,
+            deleted: true
+        };
+
+        return response;
+    }
 
     # Immediately cancel a fine-tune job.
     #

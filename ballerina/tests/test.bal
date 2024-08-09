@@ -18,7 +18,6 @@
 // under the License.
 
 import ballerina/test;
-// import ballerina/io;
 
 configurable boolean isLiveServer = ?;
 configurable string token = ?;
@@ -76,19 +75,20 @@ isolated function testRetrieveModel(TestData testData) returns error? {
 
 }
 
-// @test:Config {
-//     dependsOn: [testCreateFineTuningJob, testListModels, testRetrieveModel, testListFineTuningJobCheckpoints, testListFineTuningEvents],
-//     dataProvider:  dataGen
-// }
-// isolated function testDeleteModel(TestData testData) returns error? {
+@test:Config {
+    dependsOn: [testCreateFineTuningJob, testListModels, testRetrieveModel, testListFineTuningJobCheckpoints, testListFineTuningEvents],
+    dataProvider:  dataGen,
+    enable: isLiveServer? false : true
+}
+isolated function testDeleteModel(TestData testData) returns error? {
 
-//     string modelIdCreated = testData.modelId;
+    string modelIdCreated = testData.modelId;
 
-//     DeleteModelResponse modelResponseDelete = check baseClient->/models/[modelIdCreated].delete();
+    DeleteModelResponse modelResponseDelete = check baseClient->/models/[modelIdCreated].delete();
 
-//     test:assertEquals(modelResponseDelete.id, modelIdCreated, "Model id mismatched");
-//     test:assertTrue(modelResponseDelete.hasKey("object"), "Response does not have the key 'object'");
-// }
+    test:assertEquals(modelResponseDelete.id, modelIdCreated, "Model id mismatched");
+    test:assertTrue(modelResponseDelete.hasKey("object"), "Response does not have the key 'object'");
+}
 
 // Files
 
@@ -162,7 +162,7 @@ isolated function testDeleteFile(TestData testData) returns error? {
     test:assertTrue(fileResponseDelete.hasKey("object"), "Response does not have the key 'object'");
 }
 
-// // Fine Tuning Jobs
+// Fine Tuning Jobs
 
 @test:Config {}
 isolated function testListPaginatedFineTuningJobs() returns error? {
@@ -239,7 +239,8 @@ isolated function testListFineTuningJobCheckpoints(TestData testData) returns er
 
 @test:Config {
     dependsOn: [testCreateFineTuningJob],
-    dataProvider:  dataGen
+    dataProvider:  dataGen,
+    enable: isLiveServer? false : true
 }
 isolated function testCancelFineTuningJob(TestData testData) returns error? {
 
