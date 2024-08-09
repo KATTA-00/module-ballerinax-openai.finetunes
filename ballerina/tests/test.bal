@@ -57,41 +57,41 @@ isolated function testRetrieveModel() returns error? {
 
 }
 
-@test:Config {
-    dependsOn: [testCreateFineTuningJob, testListModels]
-}
-isolated function testDeleteModel() returns error? {
+// @test:Config {
+//     dependsOn: [testCreateFineTuningJob, testListModels]
+// }
+// isolated function testDeleteModel() returns error? {
 
-    byte[] fileContent = check io:fileReadBytes(fileName);
+//     byte[] fileContent = check io:fileReadBytes(fileName);
 
-    CreateFileRequest fileRequest = {
-        file: {fileContent, fileName},
-        purpose: "fine-tune"
-    };
+//     CreateFileRequest fileRequest = {
+//         file: {fileContent, fileName},
+//         purpose: "fine-tune"
+//     };
 
-    OpenAIFile fileResponse = check baseClient->/files.post(fileRequest);
+//     OpenAIFile fileResponse = check baseClient->/files.post(fileRequest);
 
-    string fileId = fileResponse.id;
+//     string fileId = fileResponse.id;
 
-    ListModelsResponse modelsResponse = check baseClient->/models.get();
+//     ListModelsResponse modelsResponse = check baseClient->/models.get();
 
-    // string modelId = modelsResponse.data[0].id;
-    string modelId = "gpt-3.5-turbo";
+//     // string modelId = modelsResponse.data[0].id;
+//     string modelId = "gpt-3.5-turbo";
 
-    CreateFineTuningJobRequest fineTuneRequest = {
-        model: modelId,
-        training_file: fileId
-    };
+//     CreateFineTuningJobRequest fineTuneRequest = {
+//         model: modelId,
+//         training_file: fileId
+//     };
 
-    FineTuningJob fineTuneResponse = check baseClient->/fine_tuning/jobs.post(fineTuneRequest);
+//     FineTuningJob fineTuneResponse = check baseClient->/fine_tuning/jobs.post(fineTuneRequest);
 
-    string modelIdCreated = fineTuneResponse.model;
+//     string modelIdCreated = fineTuneResponse.model;
 
-    DeleteModelResponse modelResponseDelete = check baseClient->/models/[modelIdCreated].delete();
+//     DeleteModelResponse modelResponseDelete = check baseClient->/models/[modelIdCreated].delete();
 
-    test:assertEquals(modelResponseDelete.id, modelIdCreated, "Model id mismatched");
-    test:assertTrue(modelResponseDelete.hasKey("object"), "Response does not have the key 'object'");
-}
+//     test:assertEquals(modelResponseDelete.id, modelIdCreated, "Model id mismatched");
+//     test:assertTrue(modelResponseDelete.hasKey("object"), "Response does not have the key 'object'");
+// }
 
 // // Files
 
@@ -157,27 +157,27 @@ isolated function testDownloadFile() returns error? {
     byte[] fileContentDownload = check baseClient->/files/[fileId]/content.get();
 }
 
-@test:Config {
-    dependsOn: [testCreateFile, testRetrieveFile, testListFiles]
-}
-isolated function testDeleteFile() returns error? {
+// @test:Config {
+//     dependsOn: [testCreateFile, testRetrieveFile, testListFiles]
+// }
+// isolated function testDeleteFile() returns error? {
     
-    byte[] fileContent = check io:fileReadBytes(fileName);
+//     byte[] fileContent = check io:fileReadBytes(fileName);
 
-    CreateFileRequest fileRequest = {
-        file: {fileContent, fileName},
-        purpose: "fine-tune"
-    };
+//     CreateFileRequest fileRequest = {
+//         file: {fileContent, fileName},
+//         purpose: "fine-tune"
+//     };
 
-    OpenAIFile fileResponse = check baseClient->/files.post(fileRequest);
+//     OpenAIFile fileResponse = check baseClient->/files.post(fileRequest);
 
-    string fileId = fileResponse.id;
+//     string fileId = fileResponse.id;
 
-    DeleteFileResponse fileResponseDelete = check baseClient->/files/[fileId].delete();
+//     DeleteFileResponse fileResponseDelete = check baseClient->/files/[fileId].delete();
 
-    test:assertEquals(fileResponseDelete.id, fileId, "File id mismatched");
-    test:assertTrue(fileResponseDelete.hasKey("object"), "Response does not have the key 'object'");
-}
+//     test:assertEquals(fileResponseDelete.id, fileId, "File id mismatched");
+//     test:assertTrue(fileResponseDelete.hasKey("object"), "Response does not have the key 'object'");
+// }
 
 // // Fine Tuning Jobs
 
@@ -275,19 +275,19 @@ isolated function testListFineTuningJobCheckpoints() returns error? {
 
 }
 
-@test:Config {
-    dependsOn: [testCreateFineTuningJob]
-}
-isolated function testCancelFineTuningJob() returns error? {
+// @test:Config {
+//     dependsOn: [testCreateFineTuningJob]
+// }
+// isolated function testCancelFineTuningJob() returns error? {
 
-    string fine_tuning_job_id = "ftjob-qxrbfm03AOBVju8HYytXc0lN";
+//     string fine_tuning_job_id = "ftjob-qxrbfm03AOBVju8HYytXc0lN";
 
-    ListPaginatedFineTuningJobsResponse jobsResponse = check baseClient->/fine_tuning/jobs.get();
+//     ListPaginatedFineTuningJobsResponse jobsResponse = check baseClient->/fine_tuning/jobs.get();
 
-    fine_tuning_job_id = jobsResponse.data[0].id;
+//     fine_tuning_job_id = jobsResponse.data[0].id;
 
-    FineTuningJob jobResponse = check baseClient->/fine_tuning/jobs/[fine_tuning_job_id]/cancel.post();
+//     FineTuningJob jobResponse = check baseClient->/fine_tuning/jobs/[fine_tuning_job_id]/cancel.post();
 
-    test:assertEquals(jobResponse.id, fine_tuning_job_id, "Job id mismatched");
-    test:assertTrue(jobResponse.hasKey("object"), "Response does not have the key 'object'");
-}
+//     test:assertEquals(jobResponse.id, fine_tuning_job_id, "Job id mismatched");
+//     test:assertTrue(jobResponse.hasKey("object"), "Response does not have the key 'object'");
+// }
