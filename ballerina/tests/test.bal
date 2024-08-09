@@ -29,28 +29,45 @@ final ConnectionConfig config = {auth: {token: apiKey}};
 final Client baseClient = check new Client(config, serviceUrl);
 
 final string fileName = "sample.jsonl";
-const string fileId = "file-1";
 const byte[] fileContent = [123,13,10,32,32,32,32,34,112,114,111,109,112,116,34,58,32,34,87,104,97,116,32,105,115,32,116,104,101,32,97,110,115,119,101,114,32,116,111,32,50,43,50,34,44,13,10,32,32,32,32,34,99,111,109,112,108,101,116,105,111,110,34,58,32,34,52,34,13,10,125];
+
+public type TestData record {
+
+    string fileId;
+    string modelId;
+    string jobId;
+
+};
+
+TestData testData = {fileId: "", modelId: "", jobId: ""};
+
+function dataGen() returns TestData[][] {
+    return [[testData]];
+}
 
 // Models
 
-@test:Config {}
-isolated function testListModels() returns error? {
+@test:Config {
+    dataProvider:  dataGen
+}
+isolated function testListModels(TestData testData) returns error? {
 
     ListModelsResponse modelsResponse = check baseClient->/models.get();
+
+    // testData.modelId = modelsResponse.data[0].id;
+    testData.modelId = "gpt-3.5-turbo";
 
     test:assertEquals(modelsResponse.'object, "list", "Object type mismatched");
     test:assertTrue(modelsResponse.hasKey("data"), "Response does not have the key 'data'");
 }
 
-@test:Config {}
-isolated function testRetrieveModel() returns error? {
+@test:Config {
+    dataProvider:  dataGen,
+    dependsOn: [testListModels]
+}
+isolated function testRetrieveModel(TestData testData) returns error? {
 
-    ListModelsResponse modelsResponse = check baseClient->/models.get();
-
-    string modelId = "gpt-3.5-turbo";
-
-    modelId = modelsResponse.data[0].id;
+    string modelId = testData.modelId;
 
     Model modelResponse = check baseClient->/models/[modelId].get();
 
@@ -60,34 +77,12 @@ isolated function testRetrieveModel() returns error? {
 }
 
 // @test:Config {
-//     dependsOn: [testCreateFineTuningJob, testListModels, testRetrieveModel]
+//     dependsOn: [testCreateFineTuningJob, testListModels, testRetrieveModel, testListFineTuningJobCheckpoints, testListFineTuningEvents],
+//     dataProvider:  dataGen
 // }
-// isolated function testDeleteModel() returns error? {
+// isolated function testDeleteModel(TestData testData) returns error? {
 
-//     byte[] fileContent = check io:fileReadBytes(fileName);
-
-//     CreateFileRequest fileRequest = {
-//         file: {fileContent, fileName},
-//         purpose: "fine-tune"
-//     };
-
-//     OpenAIFile fileResponse = check baseClient->/files.post(fileRequest);
-
-//     string fileId = fileResponse.id;
-
-//     ListModelsResponse modelsResponse = check baseClient->/models.get();
-
-//     // string modelId = modelsResponse.data[0].id;
-//     string modelId = "gpt-3.5-turbo";
-
-//     CreateFineTuningJobRequest fineTuneRequest = {
-//         model: modelId,
-//         training_file: fileId
-//     };
-
-//     FineTuningJob fineTuneResponse = check baseClient->/fine_tuning/jobs.post(fineTuneRequest);
-
-//     string modelIdCreated = fineTuneResponse.model;
+//     string modelIdCreated = testData.modelId;
 
 //     DeleteModelResponse modelResponseDelete = check baseClient->/models/[modelIdCreated].delete();
 
@@ -95,7 +90,7 @@ isolated function testRetrieveModel() returns error? {
 //     test:assertTrue(modelResponseDelete.hasKey("object"), "Response does not have the key 'object'");
 // }
 
-// // Files
+// Files
 
 @test:Config {}
 isolated function testListFiles() returns error? {
@@ -108,9 +103,10 @@ isolated function testListFiles() returns error? {
 }
 
 @test:Config {
-    dependsOn: [testListFiles]
+    dependsOn: [testListFiles],
+    dataProvider: dataGen
 }
-isolated function testCreateFile() returns error? {
+isolated function testCreateFile(TestData testData) returns error? {
 
     CreateFileRequest fileRequest = {
         file: {fileContent, fileName},
@@ -118,63 +114,47 @@ isolated function testCreateFile() returns error? {
     };
 
     OpenAIFile fileResponse = check baseClient->/files.post(fileRequest);
+    
+    testData.fileId = fileResponse.id;
 
     test:assertEquals(fileResponse.purpose, "fine-tune", "Purpose mismatched");
     test:assertTrue(fileResponse.id !is "", "File id is empty");
 
-    string fileId = fileResponse.id;
-
-    DeleteFileResponse fileResponseDelete = check baseClient->/files/[fileId].delete();
-
-    test:assertEquals(fileResponseDelete.id, fileId, "File id mismatched");
-    test:assertTrue(fileResponseDelete.hasKey("object"), "Response does not have the key 'object'");
 }
 
 @test:Config {
-    dependsOn: [testCreateFile]
+    dependsOn: [testCreateFile],
+    dataProvider:  dataGen
 }
-isolated function testRetrieveFile() returns error? {
+isolated function testRetrieveFile(TestData testData) returns error? {
 
-    ListFilesResponse filesResponse = check baseClient->/files.get();
-
-    string fileId = filesResponse.data[0].id;
+    string fileId = testData.fileId;
 
     OpenAIFile fileResponse = check baseClient->/files/[fileId].get();
 
     test:assertEquals(fileResponse.id, fileId, "File id mismatched");
     test:assertTrue(fileResponse.hasKey("object"), "Response does not have the key 'object'");
+
 }
 
 @test:Config {
-    dependsOn: [testCreateFile, testRetrieveFile, testListFiles]
+    dependsOn: [testCreateFile],
+    dataProvider:  dataGen
 }
-isolated function testDownloadFile() returns error? {
+isolated function testDownloadFile(TestData testData) returns error? {
 
-    CreateFileRequest fileRequest = {
-        file: {fileContent, fileName},
-        purpose: "fine-tune"
-    };
-
-    OpenAIFile fileResponse = check baseClient->/files.post(fileRequest);
-
-    string fileId = fileResponse.id;
+    string fileId = testData.fileId;
 
     byte[] fileContentDownload = check baseClient->/files/[fileId]/content.get();
 }
 
 @test:Config {
-    dependsOn: [testCreateFile, testRetrieveFile, testListFiles, testDownloadFile]
+    dependsOn: [testCreateFile, testRetrieveFile, testDownloadFile, testCreateFineTuningJob],
+    dataProvider:  dataGen
 }
-isolated function testDeleteFile() returns error? {
+isolated function testDeleteFile(TestData testData) returns error? {
     
-    CreateFileRequest fileRequest = {
-        file: {fileContent, fileName},
-        purpose: "fine-tune"
-    };
-
-    OpenAIFile fileResponse = check baseClient->/files.post(fileRequest);
-
-    string fileId = fileResponse.id;
+    string fileId = testData.fileId;
 
     DeleteFileResponse fileResponseDelete = check baseClient->/files/[fileId].delete();
 
@@ -194,23 +174,13 @@ isolated function testListPaginatedFineTuningJobs() returns error? {
 }
 
 @test:Config {
-    dependsOn: [testListPaginatedFineTuningJobs, testListModels, testCreateFile, testRetrieveFile, testListFiles, testDownloadFile, testDeleteFile]
+    dependsOn: [testListModels, testCreateFile],
+    dataProvider:  dataGen
 }
-isolated function testCreateFineTuningJob() returns error? {
-
-    CreateFileRequest fileRequest = {
-        file: {fileContent, fileName},
-        purpose: "fine-tune"
-    };
-
-    OpenAIFile fileResponse = check baseClient->/files.post(fileRequest);
-
-    string fileId = fileResponse.id;
-
-    ListModelsResponse modelsResponse = check baseClient->/models.get();
-
-    // string modelId = modelsResponse.data[0].id;
-    string modelId = "gpt-3.5-turbo";
+isolated function testCreateFineTuningJob(TestData testData) returns error? {
+    
+    string fileId = testData.fileId;
+    string modelId = testData.modelId;
 
     CreateFineTuningJobRequest fineTuneRequest = {
         model: modelId,
@@ -218,26 +188,20 @@ isolated function testCreateFineTuningJob() returns error? {
     };
 
     FineTuningJob fineTuneResponse = check baseClient->/fine_tuning/jobs.post(fineTuneRequest);
+
+    testData.jobId = fineTuneResponse.id;
         
     test:assertTrue(fineTuneResponse.hasKey("object"), "Response does not have the key 'object'");
     test:assertTrue(fineTuneResponse.hasKey("id"), "Response does not have the key 'id'");
-
-    string fine_tuning_job_id = fineTuneResponse.id;
-
-    FineTuningJob jobResponse = check baseClient->/fine_tuning/jobs/[fine_tuning_job_id]/cancel.post();
-
-    test:assertEquals(jobResponse.id, fine_tuning_job_id, "Job id mismatched");
-    test:assertTrue(jobResponse.hasKey("object"), "Response does not have the key 'object'");
 }
 
 @test:Config {
-    dependsOn: [testCreateFineTuningJob]
+    dependsOn: [testCreateFineTuningJob],
+    dataProvider:  dataGen
 }
-isolated function testRetrieveFineTuningJob() returns error? {
+isolated function testRetrieveFineTuningJob(TestData testData) returns error? {
 
-    ListPaginatedFineTuningJobsResponse jobsResponse = check baseClient->/fine_tuning/jobs.get();
-
-    string jobId = jobsResponse.data[0].id;
+    string jobId = testData.jobId;
 
     FineTuningJob jobResponse = check baseClient->/fine_tuning/jobs/[jobId].get();
 
@@ -246,15 +210,12 @@ isolated function testRetrieveFineTuningJob() returns error? {
 }
 
 @test:Config {
-    dependsOn: [testCreateFineTuningJob]
+    dependsOn: [testCreateFineTuningJob],
+    dataProvider:  dataGen
 }
-isolated function testListFineTuningEvents() returns error? {
+isolated function testListFineTuningEvents(TestData testData) returns error? {
 
-    string fine_tuning_job_id = "ftjob-qxrbfm03AOBVju8HYytXc0lN";
-
-    ListPaginatedFineTuningJobsResponse jobsResponse = check baseClient->/fine_tuning/jobs.get();
-
-    fine_tuning_job_id = jobsResponse.data[0].id;
+    string fine_tuning_job_id = testData.jobId;
 
     ListFineTuningJobEventsResponse eventsResponse = check baseClient->/fine_tuning/jobs/[fine_tuning_job_id]/events.get();
 
@@ -263,15 +224,12 @@ isolated function testListFineTuningEvents() returns error? {
 }
 
 @test:Config {
-    dependsOn: [testCreateFineTuningJob]
+    dependsOn: [testCreateFineTuningJob],
+    dataProvider:  dataGen
 }
-isolated function testListFineTuningJobCheckpoints() returns error? {
+isolated function testListFineTuningJobCheckpoints(TestData testData) returns error? {
 
-    string fine_tuning_job_id = "ftjob-qxrbfm03AOBVju8HYytXc0lN";
-
-    ListPaginatedFineTuningJobsResponse jobsResponse = check baseClient->/fine_tuning/jobs.get();
-
-    fine_tuning_job_id = jobsResponse.data[0].id;
+    string fine_tuning_job_id = testData.jobId;
 
     ListFineTuningJobCheckpointsResponse checkpointsResponse = check  baseClient->/fine_tuning/jobs/[fine_tuning_job_id]/checkpoints.get();
 
@@ -279,19 +237,16 @@ isolated function testListFineTuningJobCheckpoints() returns error? {
     test:assertTrue(checkpointsResponse.hasKey("data"), "Response does not have the key 'data'");
 }
 
-// @test:Config {
-//     dependsOn: [testCreateFineTuningJob]
-// }
-// isolated function testCancelFineTuningJob() returns error? {
+@test:Config {
+    dependsOn: [testCreateFineTuningJob],
+    dataProvider:  dataGen
+}
+isolated function testCancelFineTuningJob(TestData testData) returns error? {
 
-//     string fine_tuning_job_id = "ftjob-qxrbfm03AOBVju8HYytXc0lN";
+    string fine_tuning_job_id = testData.jobId;
 
-//     ListPaginatedFineTuningJobsResponse jobsResponse = check baseClient->/fine_tuning/jobs.get();
+    FineTuningJob jobResponse = check baseClient->/fine_tuning/jobs/[fine_tuning_job_id]/cancel.post();
 
-//     fine_tuning_job_id = jobsResponse.data[0].id;
-
-//     FineTuningJob jobResponse = check baseClient->/fine_tuning/jobs/[fine_tuning_job_id]/cancel.post();
-
-//     test:assertEquals(jobResponse.id, fine_tuning_job_id, "Job id mismatched");
-//     test:assertTrue(jobResponse.hasKey("object"), "Response does not have the key 'object'");
-// }
+    test:assertEquals(jobResponse.id, fine_tuning_job_id, "Job id mismatched");
+    test:assertTrue(jobResponse.hasKey("object"), "Response does not have the key 'object'");
+}
