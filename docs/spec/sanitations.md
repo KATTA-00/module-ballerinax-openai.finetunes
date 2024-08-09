@@ -30,12 +30,19 @@ This document records the sanitation done on top of the official OpenAPI specifi
 
    - **Reason**: This change is done as a workaround for ballerina openapi tool not allowing to generate the client.
 
-3. **Removing the Required Field from the Error Property of FineTuningJob Object**
+3. **Removed the Required Field from the `Error` Property of `FineTuningJob` Object`**
    - **Original**: The error property of the FineTuningJob object included the code, message, and param as required.
 
    - **Updated**: Removed the required field from the error property.
 
    - **Reasons**: The response does not include the code, message, and param, causing an error of missing required fields when converting.
+
+4. **Changed the response content type in `/files/{file_id}/content` endpoint**
+   - **Original**: The response content type of the `/files/{file_id}/content` endpoint was originally `application/json`.
+
+   - **Updated**: The content type has been changed to `application/octet-stream`.
+
+   - **Reasons**: The server's actual response content type was `application/octet-stream`.
 
 ## OpenAPI cli command
 
