@@ -99,7 +99,6 @@ isolated function testListFiles() returns error? {
     groups: ["Files"]
 }
 isolated function testCreateFile(TestData testData) returns error? {
-
     CreateFileRequest fileRequest = {
         file: {fileContent, fileName},
         purpose: "fine-tune"
