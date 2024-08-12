@@ -428,7 +428,6 @@ http:Service mockService = service object {
 
 };
 
-
 function init() returns error? {
 
     if isLiveServer {
