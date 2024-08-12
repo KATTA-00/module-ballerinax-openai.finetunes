@@ -37,20 +37,16 @@ import ballerinax/openai.finetunes;
 import ballerina/io;
 ```
 
-### Step 2: Create a new connector instance
+### Step 2: Instantiate a new connector
 
-1. Create a `Config.toml` file and, configure the obtained API key in the above steps as follows:
-
-```bash
-token = "<API Key>"
-```
-
-2. Create and initialize a `finetunes:Client` with the obtained `token`.
+Create a `finetunes:ConnectionConfig` with the obtained API Key and initialize the connector.
 
 ```ballerina
-finetunes:Client finetunesClient = check new ({
+configurable string apiKey = ?;
+
+final finetunes:Client openaiFinetunes = check new({
     auth: {
-        token
+        apiKey
     }
 });
 ```
@@ -68,7 +64,7 @@ finetunes:Client finetunesClient = check new ({
             purpose: "fine-tune"
         };
 
-        finetunes:OpenAIFile fileRes = check finetunesClient->/files.post(req);
+        finetunes:OpenAIFile fileRes = check openaiFinetunes->/files.post(req);
 
         string fileId = fileRes.id;
 
@@ -78,7 +74,7 @@ finetunes:Client finetunesClient = check new ({
         };
 
         FineTuningJob fineTuneResponse = 
-            check finetunesClient->/fine_tuning/jobs.post(fineTuneRequest);
+            check openaiFinetunes->/fine_tuning/jobs.post(fineTuneRequest);
         
         io:println(fineTuneResponse.id);
     }
