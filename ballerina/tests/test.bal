@@ -27,7 +27,7 @@ configurable string apiKey = isLiveServer ? token : "";
 
 // Initialize the connection configuration and client.
 final ConnectionConfig config = {auth: {token: apiKey}};
-final Client openaiFinetunes = check new Client(config, serviceUrl);
+final Client openAIFinetunes = check new Client(config, serviceUrl);
 
 // Define sample file content and name.
 final string fileName = "sample.jsonl";
