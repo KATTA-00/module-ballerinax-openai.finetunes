@@ -34,10 +34,11 @@ To use the OpenAI Connector, you must have access to the OpenAI API through a [O
 
 ## Quickstart
 
-To use the OpenAI Fine-tunes connector in your Ballerina application, update the `.bal` file as follows:
+To use the `OpenAI Finetunes` connector in your Ballerina application, update the `.bal` file as follows:
 
-### Step 1: Import the connector
-First, import the `ballerinax/openai.finetunes` module (along with the other required imports) as given below.
+### Step 1: Import the module
+
+Import the `openai.finetunes` module.
 
 ```ballerina
 import ballerinax/openai.finetunes;
@@ -58,34 +59,38 @@ final finetunes:Client openaiFinetunes = check new({
 ```
 
 ### Step 3: Invoke the connector operation
-1. Now, you can use the operations available within the connector. 
 
-   Following is an example on fine tuning the gpt-3.5-turbo model:
+Now, utilize the available connector operations.
 
-    ```ballerina
-    public function main() returns error? {
+#### Fine tuning the gpt-3.5-turbo model
 
-        finetunes:CreateFileRequest req = {
-            file: {fileContent: check io:fileReadBytes("sample.jsonl"), fileName: "sample.jsonl"},
-            purpose: "fine-tune"
-        };
+```ballerina
+public function main() returns error? {
 
-        finetunes:OpenAIFile fileRes = check openaiFinetunes->/files.post(req);
+    finetunes:CreateFileRequest req = {
+        file: {fileContent: check io:fileReadBytes("sample.jsonl"), fileName: "sample.jsonl"},
+        purpose: "fine-tune"
+    };
 
-        string fileId = fileRes.id;
+    finetunes:OpenAIFile fileRes = check openaiFinetunes->/files.post(req);
 
-        CreateFineTuningJobRequest fineTuneRequest = {
-            model: "gpt-3.5-turbo",
-            training_file: fileId
-        };
+    string fileId = fileRes.id;
 
-        FineTuningJob fineTuneResponse = 
-            check openaiFinetunes->/fine_tuning/jobs.post(fineTuneRequest);
-        
-        io:println(fineTuneResponse.id);
-    }
-    ``` 
-2. Use the `bal run` command to compile and run the Ballerina program.
+    CreateFineTuningJobRequest fineTuneRequest = {
+        model: "gpt-3.5-turbo",
+        training_file: fileId
+    };
+
+    FineTuningJob fineTuneResponse = 
+        check openaiFinetunes->/fine_tuning/jobs.post(fineTuneRequest);
+}
+```
+
+### Step 4: Run the Ballerina application
+
+```bash
+bal run
+```
 
 ## Examples
 
