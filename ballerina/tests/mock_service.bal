@@ -20,6 +20,18 @@
 import ballerina/http;
 import ballerina/log;
 
+public type OkFineTuningJob record {|
+    *http:Ok;
+    FineTuningJob body;
+    map<string|string[]> headers;
+|};
+
+public type OkOpenAIFile record {|
+    *http:Ok;
+    OpenAIFile body;
+    map<string|string[]> headers;
+|};
+
 listener http:Listener httpListener = new (9090);
 
 http:Service mockService = service object {
