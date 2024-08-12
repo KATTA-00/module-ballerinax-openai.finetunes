@@ -31,7 +31,7 @@ final Client openAIFinetunes = check new Client(config, serviceUrl);
 
 // Define sample file content and name.
 final string fileName = "sample.jsonl";
-const byte[] fileContent = [123,13,10,32,32,32,32,34,112,114,111,109,112,116,34,58,32,34,87,104,97,116,32,105,115,32,116,104,101,32,97,110,115,119,101,114,32,116,111,32,50,43,50,34,44,13,10,32,32,32,32,34,99,111,109,112,108,101,116,105,111,110,34,58,32,34,52,34,13,10,125];
+const byte[] fileContent = [123, 13, 10, 32, 32, 32, 32, 34, 112, 114, 111, 109, 112, 116, 34, 58, 32, 34, 87, 104, 97, 116, 32, 105, 115, 32, 116, 104, 101, 32, 97, 110, 115, 119, 101, 114, 32, 116, 111, 32, 50, 43, 50, 34, 44, 13, 10, 32, 32, 32, 32, 34, 99, 111, 109, 112, 108, 101, 116, 105, 111, 110, 34, 58, 32, 34, 52, 34, 13, 10, 125];
 
 // Record type to hold test data.
 public type TestData record {
@@ -49,7 +49,7 @@ function dataGen() returns TestData[][] {
 }
 
 @test:Config {
-    dataProvider:  dataGen,
+    dataProvider: dataGen,
     groups: ["Models"]
 }
 isolated function testListModels(TestData testData) returns error? {
@@ -60,7 +60,7 @@ isolated function testListModels(TestData testData) returns error? {
 }
 
 @test:Config {
-    dataProvider:  dataGen,
+    dataProvider: dataGen,
     dependsOn: [testListModels],
     groups: ["Models"]
 }
@@ -73,8 +73,8 @@ isolated function testRetrieveModel(TestData testData) returns error? {
 
 @test:Config {
     dependsOn: [testCreateFineTuningJob, testListModels, testRetrieveModel, testListFineTuningJobCheckpoints, testListFineTuningEvents],
-    dataProvider:  dataGen,
-    enable: isLiveServer? false : true, // Enable this test only for mock server.
+    dataProvider: dataGen,
+    enable: isLiveServer ? false : true, // Enable this test only for mock server.
     groups: ["Models"]
 }
 isolated function testDeleteModel(TestData testData) returns error? {
@@ -124,7 +124,7 @@ isolated function testRetrieveFile(TestData testData) returns error? {
 
 @test:Config {
     dependsOn: [testCreateFile],
-    dataProvider:  dataGen,
+    dataProvider: dataGen,
     groups: ["Files"]
 }
 isolated function testDownloadFile(TestData testData) returns error? {
@@ -135,7 +135,7 @@ isolated function testDownloadFile(TestData testData) returns error? {
 
 @test:Config {
     dependsOn: [testCreateFile, testRetrieveFile, testDownloadFile, testCreateFineTuningJob],
-    dataProvider:  dataGen,
+    dataProvider: dataGen,
     groups: ["Files"]
 }
 isolated function testDeleteFile(TestData testData) returns error? {
@@ -156,7 +156,7 @@ isolated function testListPaginatedFineTuningJobs() returns error? {
 
 @test:Config {
     dependsOn: [testListModels, testCreateFile],
-    dataProvider:  dataGen,
+    dataProvider: dataGen,
     groups: ["Fine-tuning"]
 }
 isolated function testCreateFineTuningJob(TestData testData) returns error? {
@@ -176,7 +176,7 @@ isolated function testCreateFineTuningJob(TestData testData) returns error? {
 
 @test:Config {
     dependsOn: [testCreateFineTuningJob],
-    dataProvider:  dataGen,
+    dataProvider: dataGen,
     groups: ["Fine-tuning"]
 }
 isolated function testRetrieveFineTuningJob(TestData testData) returns error? {
@@ -188,7 +188,7 @@ isolated function testRetrieveFineTuningJob(TestData testData) returns error? {
 
 @test:Config {
     dependsOn: [testCreateFineTuningJob],
-    dataProvider:  dataGen,
+    dataProvider: dataGen,
     groups: ["Fine-tuning"]
 }
 isolated function testListFineTuningEvents(TestData testData) returns error? {
@@ -200,7 +200,7 @@ isolated function testListFineTuningEvents(TestData testData) returns error? {
 
 @test:Config {
     dependsOn: [testCreateFineTuningJob],
-    dataProvider:  dataGen,
+    dataProvider: dataGen,
     groups: ["Fine-tuning"]
 }
 isolated function testListFineTuningJobCheckpoints(TestData testData) returns error? {
@@ -212,8 +212,8 @@ isolated function testListFineTuningJobCheckpoints(TestData testData) returns er
 
 @test:Config {
     dependsOn: [testCreateFineTuningJob],
-    dataProvider:  dataGen,
-    enable: isLiveServer? false : true, // Enable this test only for mock server.
+    dataProvider: dataGen,
+    enable: isLiveServer ? false : true, // Enable this test only for mock server.
     groups: ["Fine-tuning"]
 }
 isolated function testCancelFineTuningJob(TestData testData) returns error? {

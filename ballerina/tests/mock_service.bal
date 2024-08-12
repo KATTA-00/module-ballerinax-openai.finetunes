@@ -36,7 +36,6 @@ listener http:Listener httpListener = new (9090);
 
 http:Service mockService = service object {
 
-
     # Delete a fine-tuned model. You must have the Owner role in your organization to delete a model.
     #
     # + model - The model to delete
@@ -59,7 +58,7 @@ http:Service mockService = service object {
     resource function post fine_tuning/jobs/[string fine_tuning_job_id]/cancel() returns OkFineTuningJob {
 
         OkFineTuningJob response = {
-            body:{
+            body: {
                 "object": "fine_tuning.job",
                 "id": fine_tuning_job_id,
                 "model": "gpt-3.5-turbo-0125",
@@ -82,11 +81,11 @@ http:Service mockService = service object {
                 "seed": 1776549854,
                 "estimated_finish": null,
                 "integrations": []
-                },
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            };
+            },
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
 
         return response;
     }
@@ -139,7 +138,6 @@ http:Service mockService = service object {
         };
 
         return response;
-
     }
 
     # Returns information about a specific file.
@@ -160,7 +158,6 @@ http:Service mockService = service object {
         };
 
         return response;
-
     }
 
     # Returns the contents of the specified file.
@@ -172,7 +169,6 @@ http:Service mockService = service object {
         byte[] response = [123, 34, 116, 101, 120, 116, 34, 58, 34, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 34, 125];
 
         return response;
-
     }
 
     # List your organization's fine-tuning jobs
@@ -218,11 +214,10 @@ http:Service mockService = service object {
         };
 
         return response;
-
     }
 
     # Get info about a fine-tuning job.
-    # 
+    #
     # [Learn more about fine-tuning](/docs/guides/fine-tuning)
     #
     # + fine_tuning_job_id - The ID of the fine-tuning job.
@@ -259,7 +254,6 @@ http:Service mockService = service object {
         };
 
         return response;
-
     }
 
     # List checkpoints for a fine-tuning job.
@@ -280,7 +274,7 @@ http:Service mockService = service object {
                     "fine_tuned_model_checkpoint": "gpt-3.5-turbo-0125-1",
                     "fine_tuning_job_id": fine_tuning_job_id,
                     "metrics": {
-                        "step":1
+                        "step": 1
                     },
                     "step_number": 2
                 }
@@ -289,7 +283,6 @@ http:Service mockService = service object {
         };
 
         return response;
-
     }
 
     # Get status updates for a fine-tuning job.
@@ -314,14 +307,13 @@ http:Service mockService = service object {
         };
 
         return response;
-
     }
 
     # Lists the currently available models, and provides basic information about each one such as the owner and availability.
     #
     # + return - OK 
     resource function get models() returns ListModelsResponse {
-        
+
         ListModelsResponse response = {
             'object: "list",
             data: [
@@ -341,7 +333,6 @@ http:Service mockService = service object {
         };
 
         return response;
-
     }
 
     # Retrieves a model instance, providing basic information about the model such as the owner and permissioning.
@@ -358,17 +349,16 @@ http:Service mockService = service object {
         };
 
         return response;
-
     }
 
     # Upload a file that can be used across various endpoints. Individual files can be up to 512 MB, and the size of all files uploaded by one organization can be up to 100 GB.
-    # 
+    #
     # The Assistants API supports files up to 2 million tokens and of specific file types. See the [Assistants Tools guide](/docs/assistants/tools) for details.
-    # 
+    #
     # The Fine-tuning API only supports `.jsonl` files. The input also has certain required formats for fine-tuning [chat](/docs/api-reference/fine-tuning/chat-input) or [completions](/docs/api-reference/fine-tuning/completions-input) models.
-    # 
+    #
     # The Batch API only supports `.jsonl` files up to 100 MB in size. The input also has a specific required [format](/docs/api-reference/batch/request-input).
-    # 
+    #
     # Please [contact us](https://help.openai.com/) if you need to increase these storage limits.
     #
     # + return - OK 
@@ -391,20 +381,19 @@ http:Service mockService = service object {
         };
 
         return response;
-
     }
 
     # Creates a fine-tuning job which begins the process of creating a new model from a given dataset.
-    # 
+    #
     # Response includes details of the enqueued job including job status and the name of the fine-tuned models once complete.
-    # 
+    #
     # [Learn more about fine-tuning](/docs/guides/fine-tuning)
     #
     # + return - OK 
     resource function post fine_tuning/jobs(@http:Payload CreateFineTuningJobRequest payload) returns OkFineTuningJob {
 
         OkFineTuningJob response = {
-            body:{
+            body: {
                 "object": "fine_tuning.job",
                 "id": "ftjob-5NikxOY1BsPHxt8Z8YBm8AX1",
                 "model": "gpt-3.5-turbo-0125",
@@ -427,16 +416,14 @@ http:Service mockService = service object {
                 "seed": 1776549854,
                 "estimated_finish": null,
                 "integrations": []
-                },
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            };
+            },
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
 
         return response;
-
     }
-
 };
 
 function init() returns error? {
