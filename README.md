@@ -41,7 +41,6 @@ First, import the `ballerinax/openai.finetunes` module (along with the other req
 
 ```ballerina
 import ballerinax/openai.finetunes;
-import ballerina/io;
 ```
 
 ### Step 2: Instantiate a new connector
