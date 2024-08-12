@@ -112,7 +112,7 @@ isolated function testCreateFile(TestData testData) returns error? {
 
 @test:Config {
     dependsOn: [testCreateFile],
-    dataProvider:  dataGen,
+    dataProvider: dataGen,
     groups: ["Files"]
 }
 isolated function testRetrieveFile(TestData testData) returns error? {
