@@ -53,7 +53,7 @@ function dataGen() returns TestData[][] {
     groups: ["Models"]
 }
 isolated function testListModels(TestData testData) returns error? {
-    ListModelsResponse modelsResponse = check openaiFinetunes->/models.get();
+    ListModelsResponse modelsResponse = check openAIFinetunes->/models.get();
     testData.modelId = "gpt-3.5-turbo";
     test:assertEquals(modelsResponse.'object, "list", "Object type mismatched");
     test:assertTrue(modelsResponse.hasKey("data"), "Response does not have the key 'data'");
@@ -66,7 +66,7 @@ isolated function testListModels(TestData testData) returns error? {
 }
 isolated function testRetrieveModel(TestData testData) returns error? {
     string modelId = testData.modelId;
-    Model modelResponse = check openaiFinetunes->/models/[modelId].get();
+    Model modelResponse = check openAIFinetunes->/models/[modelId].get();
     test:assertEquals(modelResponse.id, modelId, "Model id mismatched");
     test:assertTrue(modelResponse.hasKey("object"), "Response does not have the key 'object'");
 }
@@ -79,7 +79,7 @@ isolated function testRetrieveModel(TestData testData) returns error? {
 }
 isolated function testDeleteModel(TestData testData) returns error? {
     string modelIdCreated = testData.modelId;
-    DeleteModelResponse modelResponseDelete = check openaiFinetunes->/models/[modelIdCreated].delete();
+    DeleteModelResponse modelResponseDelete = check openAIFinetunes->/models/[modelIdCreated].delete();
     test:assertEquals(modelResponseDelete.id, modelIdCreated, "Model id mismatched");
     test:assertTrue(modelResponseDelete.hasKey("object"), "Response does not have the key 'object'");
 }
@@ -88,7 +88,7 @@ isolated function testDeleteModel(TestData testData) returns error? {
     groups: ["Files"]
 }
 isolated function testListFiles() returns error? {
-    ListFilesResponse filesResponse = check openaiFinetunes->/files.get();
+    ListFilesResponse filesResponse = check openAIFinetunes->/files.get();
     test:assertEquals(filesResponse.'object, "list", "Object type mismatched");
     test:assertTrue(filesResponse.hasKey("data"), "Response does not have the key 'data'");
 }
@@ -104,7 +104,7 @@ isolated function testCreateFile(TestData testData) returns error? {
         purpose: "fine-tune"
     };
 
-    OpenAIFile fileResponse = check openaiFinetunes->/files.post(fileRequest);
+    OpenAIFile fileResponse = check openAIFinetunes->/files.post(fileRequest);
     testData.fileId = fileResponse.id;
     test:assertEquals(fileResponse.purpose, "fine-tune", "Purpose mismatched");
     test:assertTrue(fileResponse.id !is "", "File id is empty");
@@ -117,7 +117,7 @@ isolated function testCreateFile(TestData testData) returns error? {
 }
 isolated function testRetrieveFile(TestData testData) returns error? {
     string fileId = testData.fileId;
-    OpenAIFile fileResponse = check openaiFinetunes->/files/[fileId].get();
+    OpenAIFile fileResponse = check openAIFinetunes->/files/[fileId].get();
     test:assertEquals(fileResponse.id, fileId, "File id mismatched");
     test:assertTrue(fileResponse.hasKey("object"), "Response does not have the key 'object'");
 }
@@ -129,7 +129,7 @@ isolated function testRetrieveFile(TestData testData) returns error? {
 }
 isolated function testDownloadFile(TestData testData) returns error? {
     string fileId = testData.fileId;
-    byte[] fileContentDownload = check openaiFinetunes->/files/[fileId]/content.get();
+    byte[] fileContentDownload = check openAIFinetunes->/files/[fileId]/content.get();
     test:assertFalse(fileContentDownload.length() <= 0, "File content is empty");
 }
 
@@ -140,7 +140,7 @@ isolated function testDownloadFile(TestData testData) returns error? {
 }
 isolated function testDeleteFile(TestData testData) returns error? {
     string fileId = testData.fileId;
-    DeleteFileResponse fileResponseDelete = check openaiFinetunes->/files/[fileId].delete();
+    DeleteFileResponse fileResponseDelete = check openAIFinetunes->/files/[fileId].delete();
     test:assertEquals(fileResponseDelete.id, fileId, "File id mismatched");
     test:assertTrue(fileResponseDelete.hasKey("object"), "Response does not have the key 'object'");
 }
@@ -149,7 +149,7 @@ isolated function testDeleteFile(TestData testData) returns error? {
     groups: ["Fine-tuning"]
 }
 isolated function testListPaginatedFineTuningJobs() returns error? {
-    ListPaginatedFineTuningJobsResponse jobsResponse = check openaiFinetunes->/fine_tuning/jobs.get();
+    ListPaginatedFineTuningJobsResponse jobsResponse = check openAIFinetunes->/fine_tuning/jobs.get();
     test:assertEquals(jobsResponse.'object, "list", "Object type mismatched");
     test:assertTrue(jobsResponse.hasKey("data"), "Response does not have the key 'data'");
 }
@@ -168,7 +168,7 @@ isolated function testCreateFineTuningJob(TestData testData) returns error? {
         training_file: fileId
     };
 
-    FineTuningJob fineTuneResponse = check openaiFinetunes->/fine_tuning/jobs.post(fineTuneRequest);
+    FineTuningJob fineTuneResponse = check openAIFinetunes->/fine_tuning/jobs.post(fineTuneRequest);
     testData.jobId = fineTuneResponse.id;
     test:assertTrue(fineTuneResponse.hasKey("object"), "Response does not have the key 'object'");
     test:assertTrue(fineTuneResponse.hasKey("id"), "Response does not have the key 'id'");
@@ -181,7 +181,7 @@ isolated function testCreateFineTuningJob(TestData testData) returns error? {
 }
 isolated function testRetrieveFineTuningJob(TestData testData) returns error? {
     string jobId = testData.jobId;
-    FineTuningJob jobResponse = check openaiFinetunes->/fine_tuning/jobs/[jobId].get();
+    FineTuningJob jobResponse = check openAIFinetunes->/fine_tuning/jobs/[jobId].get();
     test:assertEquals(jobResponse.id, jobId, "Job id mismatched");
     test:assertEquals(jobResponse.'object, "fine_tuning.job", "Response does not have the key 'object'");
 }
@@ -193,7 +193,7 @@ isolated function testRetrieveFineTuningJob(TestData testData) returns error? {
 }
 isolated function testListFineTuningEvents(TestData testData) returns error? {
     string fine_tuning_job_id = testData.jobId;
-    ListFineTuningJobEventsResponse eventsResponse = check openaiFinetunes->/fine_tuning/jobs/[fine_tuning_job_id]/events.get();
+    ListFineTuningJobEventsResponse eventsResponse = check openAIFinetunes->/fine_tuning/jobs/[fine_tuning_job_id]/events.get();
     test:assertEquals(eventsResponse.'object, "list", "Object type mismatched");
     test:assertTrue(eventsResponse.hasKey("data"), "Response does not have the key 'data'");
 }
@@ -205,7 +205,7 @@ isolated function testListFineTuningEvents(TestData testData) returns error? {
 }
 isolated function testListFineTuningJobCheckpoints(TestData testData) returns error? {
     string fine_tuning_job_id = testData.jobId;
-    ListFineTuningJobCheckpointsResponse checkpointsResponse = check openaiFinetunes->/fine_tuning/jobs/[fine_tuning_job_id]/checkpoints.get();
+    ListFineTuningJobCheckpointsResponse checkpointsResponse = check openAIFinetunes->/fine_tuning/jobs/[fine_tuning_job_id]/checkpoints.get();
     test:assertEquals(checkpointsResponse.'object, "list", "Object type mismatched");
     test:assertTrue(checkpointsResponse.hasKey("data"), "Response does not have the key 'data'");
 }
@@ -218,7 +218,7 @@ isolated function testListFineTuningJobCheckpoints(TestData testData) returns er
 }
 isolated function testCancelFineTuningJob(TestData testData) returns error? {
     string fine_tuning_job_id = testData.jobId;
-    FineTuningJob jobResponse = check openaiFinetunes->/fine_tuning/jobs/[fine_tuning_job_id]/cancel.post();
+    FineTuningJob jobResponse = check openAIFinetunes->/fine_tuning/jobs/[fine_tuning_job_id]/cancel.post();
     test:assertEquals(jobResponse.id, fine_tuning_job_id, "Job id mismatched");
     test:assertTrue(jobResponse.hasKey("object"), "Response does not have the key 'object'");
 }
