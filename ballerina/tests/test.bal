@@ -53,11 +53,8 @@ function dataGen() returns TestData[][] {
     dataProvider:  dataGen
 }
 isolated function testListModels(TestData testData) returns error? {
-
     ListModelsResponse modelsResponse = check openaiFinetunes->/models.get();
-
     testData.modelId = "gpt-3.5-turbo";
-
     test:assertEquals(modelsResponse.'object, "list", "Object type mismatched");
     test:assertTrue(modelsResponse.hasKey("data"), "Response does not have the key 'data'");
 }
