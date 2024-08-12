@@ -88,9 +88,9 @@ isolated function testDeleteModel(TestData testData) returns error? {
     test:assertTrue(modelResponseDelete.hasKey("object"), "Response does not have the key 'object'");
 }
 
-// Files
-// Test case to list all files.
-@test:Config {}
+@test:Config {
+    groups: ["Files"]
+}
 isolated function testListFiles() returns error? {
 
     ListFilesResponse filesResponse = check openaiFinetunes->/files.get();
