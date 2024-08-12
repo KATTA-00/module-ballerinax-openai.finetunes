@@ -104,7 +104,6 @@ http:Service mockService = service object {
         };
 
         return response;
-
     }
 
     # Returns a list of files that belong to the user's organization.
