@@ -52,7 +52,7 @@ Create a `finetunes:ConnectionConfig` with the obtained API Key and initialize t
 ```ballerina
 configurable string apiKey = ?;
 
-final finetunes:Client openaiFinetunes = check new({
+final finetunes:Client openAIFinetunes = check new({
     auth: {
         token: apiKey
     }
