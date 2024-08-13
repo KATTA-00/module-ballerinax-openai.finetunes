@@ -51,7 +51,7 @@ function dataGen() returns TestData[][] {
 
 @test:Config {
     dataProvider: dataGen,
-    groups: ["Models"]
+    groups: ["Models", "live_tests", "mock_tests"]
 }
 isolated function testListModels(TestData testData) returns error? {
     ListModelsResponse modelsResponse = check openAIFinetunes->/models.get();
@@ -63,7 +63,7 @@ isolated function testListModels(TestData testData) returns error? {
 @test:Config {
     dataProvider: dataGen,
     dependsOn: [testListModels],
-    groups: ["Models"]
+    groups: ["Models", "live_tests", "mock_tests"]
 }
 isolated function testRetrieveModel(TestData testData) returns error? {
     string modelId = testData.modelId;
@@ -76,7 +76,7 @@ isolated function testRetrieveModel(TestData testData) returns error? {
     dependsOn: [testCreateFineTuningJob, testListModels, testRetrieveModel, testListFineTuningJobCheckpoints, testListFineTuningEvents],
     dataProvider: dataGen,
     enable: isLiveServer ? false : true, // Enable this test only for mock server.
-    groups: ["Models"]
+    groups: ["Models", "mock_tests"]
 }
 isolated function testDeleteModel(TestData testData) returns error? {
     string modelIdCreated = testData.modelId;
@@ -86,7 +86,7 @@ isolated function testDeleteModel(TestData testData) returns error? {
 }
 
 @test:Config {
-    groups: ["Files"]
+    groups: ["Files", "live_tests", "mock_tests"]
 }
 isolated function testListFiles() returns error? {
     ListFilesResponse filesResponse = check openAIFinetunes->/files.get();
@@ -97,7 +97,7 @@ isolated function testListFiles() returns error? {
 @test:Config {
     dependsOn: [testListFiles],
     dataProvider: dataGen,
-    groups: ["Files"]
+    groups: ["Files", "live_tests", "mock_tests"]
 }
 isolated function testCreateFile(TestData testData) returns error? {
     CreateFileRequest fileRequest = {
@@ -114,7 +114,7 @@ isolated function testCreateFile(TestData testData) returns error? {
 @test:Config {
     dependsOn: [testCreateFile],
     dataProvider: dataGen,
-    groups: ["Files"]
+    groups: ["Files", "live_tests", "mock_tests"]
 }
 isolated function testRetrieveFile(TestData testData) returns error? {
     string fileId = testData.fileId;
@@ -126,7 +126,7 @@ isolated function testRetrieveFile(TestData testData) returns error? {
 @test:Config {
     dependsOn: [testCreateFile],
     dataProvider: dataGen,
-    groups: ["Files"]
+    groups: ["Files", "live_tests", "mock_tests"]
 }
 isolated function testDownloadFile(TestData testData) returns error? {
     string fileId = testData.fileId;
@@ -137,7 +137,7 @@ isolated function testDownloadFile(TestData testData) returns error? {
 @test:Config {
     dependsOn: [testCreateFile, testRetrieveFile, testDownloadFile, testCreateFineTuningJob],
     dataProvider: dataGen,
-    groups: ["Files"]
+    groups: ["Files", "live_tests", "mock_tests"]
 }
 isolated function testDeleteFile(TestData testData) returns error? {
     string fileId = testData.fileId;
@@ -147,7 +147,7 @@ isolated function testDeleteFile(TestData testData) returns error? {
 }
 
 @test:Config {
-    groups: ["Fine-tuning"]
+    groups: ["Fine-tuning", "live_tests", "mock_tests"]
 }
 isolated function testListPaginatedFineTuningJobs() returns error? {
     ListPaginatedFineTuningJobsResponse jobsResponse = check openAIFinetunes->/fine_tuning/jobs.get();
@@ -158,7 +158,7 @@ isolated function testListPaginatedFineTuningJobs() returns error? {
 @test:Config {
     dependsOn: [testListModels, testCreateFile],
     dataProvider: dataGen,
-    groups: ["Fine-tuning"]
+    groups: ["Fine-tuning", "live_tests", "mock_tests"]
 }
 isolated function testCreateFineTuningJob(TestData testData) returns error? {
     string fileId = testData.fileId;
@@ -178,7 +178,7 @@ isolated function testCreateFineTuningJob(TestData testData) returns error? {
 @test:Config {
     dependsOn: [testCreateFineTuningJob],
     dataProvider: dataGen,
-    groups: ["Fine-tuning"]
+    groups: ["Fine-tuning", "live_tests", "mock_tests"]
 }
 isolated function testRetrieveFineTuningJob(TestData testData) returns error? {
     string jobId = testData.jobId;
@@ -190,7 +190,7 @@ isolated function testRetrieveFineTuningJob(TestData testData) returns error? {
 @test:Config {
     dependsOn: [testCreateFineTuningJob],
     dataProvider: dataGen,
-    groups: ["Fine-tuning"]
+    groups: ["Fine-tuning", "live_tests", "mock_tests"]
 }
 isolated function testListFineTuningEvents(TestData testData) returns error? {
     string fine_tuning_job_id = testData.jobId;
@@ -202,7 +202,7 @@ isolated function testListFineTuningEvents(TestData testData) returns error? {
 @test:Config {
     dependsOn: [testCreateFineTuningJob],
     dataProvider: dataGen,
-    groups: ["Fine-tuning"]
+    groups: ["Fine-tuning", "live_tests", "mock_tests"]
 }
 isolated function testListFineTuningJobCheckpoints(TestData testData) returns error? {
     string fine_tuning_job_id = testData.jobId;
@@ -215,7 +215,7 @@ isolated function testListFineTuningJobCheckpoints(TestData testData) returns er
     dependsOn: [testCreateFineTuningJob],
     dataProvider: dataGen,
     enable: isLiveServer ? false : true, // Enable this test only for mock server.
-    groups: ["Fine-tuning"]
+    groups: ["Fine-tuning", "mock_tests"]
 }
 isolated function testCancelFineTuningJob(TestData testData) returns error? {
     string fine_tuning_job_id = testData.jobId;
