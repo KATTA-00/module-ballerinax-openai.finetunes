@@ -42,6 +42,7 @@ Import the `openai.finetunes` module.
 
 ```ballerina
 import ballerinax/openai.finetunes;
+import ballerina/io;
 ```
 
 ### Step 2: Instantiate a new connector
@@ -53,7 +54,7 @@ configurable string apiKey = ?;
 
 final finetunes:Client openaiFinetunes = check new({
     auth: {
-        apiKey
+        token: apiKey
     }
 });
 ```
@@ -61,6 +62,8 @@ final finetunes:Client openaiFinetunes = check new({
 ### Step 3: Invoke the connector operation
 
 Now, utilize the available connector operations.
+
+**Note**:  First, create a sample.jsonl file in the same directory. This file should contain the training data formatted according to the guidelines provided [here](https://platform.openai.com/docs/api-reference/files/create).
 
 #### Fine tuning the gpt-3.5-turbo model
 
