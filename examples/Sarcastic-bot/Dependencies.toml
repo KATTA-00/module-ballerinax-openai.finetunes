@@ -110,7 +110,7 @@ version = "0.0.0"
 [[package]]
 org = "ballerina"
 name = "jwt"
-version = "2.11.0"
+version = "2.12.1"
 dependencies = [
 	{org = "ballerina", name = "cache"},
 	{org = "ballerina", name = "crypto"},
@@ -294,7 +294,7 @@ modules = [
 
 [[package]]
 org = "kanishka"
-name = "temp"
+name = "Sarcastic_bot"
 version = "0.1.0"
 dependencies = [
 	{org = "ballerina", name = "http"},
@@ -305,6 +305,6 @@ dependencies = [
 	{org = "ballerinai", name = "observe"}
 ]
 modules = [
-	{org = "kanishka", packageName = "temp", moduleName = "temp"}
+	{org = "kanishka", packageName = "Sarcastic_bot", moduleName = "Sarcastic_bot"}
 ]
 
