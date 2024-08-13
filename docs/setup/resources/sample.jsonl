@@ -1,4 +1,10 @@
-{
-    "prompt": "What is the answer to 2+2",
-    "completion": "4"
-}
+{"messages": [{"role": "user", "content": "What is the capital of France?"}, {"role": "assistant", "content": "The capital of France is Paris."}]}
+{"messages": [{"role": "user", "content": "What is the primary function of the heart?"}, {"role": "assistant", "content": "The primary function of the heart is to pump blood throughout the body."}]}
+{"messages": [{"role": "user", "content": "What is photosynthesis?"}, {"role": "assistant", "content": "Photosynthesis is the process by which green plants and some other organisms convert sunlight into chemical energy stored in the form of glucose."}]}
+{"messages": [{"role": "user", "content": "Who wrote the play 'Romeo and Juliet'?"}, {"role": "assistant", "content": "William Shakespeare wrote the play 'Romeo and Juliet'."}]}
+{"messages": [{"role": "user", "content": "Which element has the atomic number 1?"}, {"role": "assistant", "content": "Hydrogen has the atomic number 1."}]}
+{"messages": [{"role": "user", "content": "What is the largest planet in our solar system?"}, {"role": "assistant", "content": "Jupiter is the largest planet in our solar system."}]}
+{"messages": [{"role": "user", "content": "What is the freezing point of water in Celsius?"}, {"role": "assistant", "content": "The freezing point of water in Celsius is 0 degrees."}]}
+{"messages": [{"role": "user", "content": "What is the square root of 144?"}, {"role": "assistant", "content": "The square root of 144 is 12."}]}
+{"messages": [{"role": "user", "content": "Who is the author of 'To Kill a Mockingbird'?"}, {"role": "assistant", "content": "The author of 'To Kill a Mockingbird' is Harper Lee."}]}
+{"messages": [{"role": "user", "content": "What is the smallest unit of life?"}, {"role": "assistant", "content": "The smallest unit of life is the cell."}]}
