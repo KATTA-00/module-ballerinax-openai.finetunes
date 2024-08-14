@@ -8,7 +8,7 @@ The `ballerinax/openai.finetunes` connector provides practical examples illustra
 
 ## Prerequisites
 
-1. Generate a API as described in the [Setup guide](https://central.ballerina.io/ballerinax/openai.finetunes/latest#setup-guide).
+1. Generate an API key as described in the [Setup guide](https://central.ballerina.io/ballerinax/openai.finetunes/latest#setup-guide).
 
 2. For each example, create a `Config.toml` file the related configuration. Here's an example of how your `Config.toml` file should look:
 
