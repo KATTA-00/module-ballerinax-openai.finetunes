@@ -10,7 +10,7 @@ distribution-version = "2201.9.2"
 [[package]]
 org = "ballerina"
 name = "auth"
-version = "2.11.1"
+version = "2.11.2"
 dependencies = [
 	{org = "ballerina", name = "crypto"},
 	{org = "ballerina", name = "jballerina.java"},
@@ -107,7 +107,7 @@ version = "0.0.0"
 [[package]]
 org = "ballerina"
 name = "jwt"
-version = "2.12.1"
+version = "2.11.0"
 dependencies = [
 	{org = "ballerina", name = "cache"},
 	{org = "ballerina", name = "crypto"},
@@ -289,7 +289,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "openai.finetunes"
-version = "1.0.5"
+version = "1.0.7"
 dependencies = [
 	{org = "ballerina", name = "http"},
 	{org = "ballerina", name = "mime"},

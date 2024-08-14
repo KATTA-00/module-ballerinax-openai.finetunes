@@ -1,7 +1,6 @@
 import ballerina/io;
 import ballerina/lang.runtime;
-
-// import ballerinax/openai.finetunes;
+import ballerinax/openai.finetunes;
 
 configurable string token = ?;
 string serviceUrl = "https://api.openai.com/v1";
@@ -10,26 +9,26 @@ string validationFileName = "validation.jsonl";
 string trainingFilePath = "./data/" + trainingFileName;
 string validationFilePath = "./data/" + validationFileName;
 
-final ConnectionConfig config = {auth: {token}};
-final Client openAIFinetunes = check new Client(config, serviceUrl);
+final finetunes:ConnectionConfig config = {auth: {token}};
+final finetunes:Client openAIFinetunes = check new Client(config, serviceUrl);
 
 public function main() returns error? {
 
     byte[] trainingFileContent = check io:fileReadBytes(trainingFilePath);
     byte[] validationFileContent = check io:fileReadBytes(validationFilePath);
 
-    CreateFileRequest trainingFileRequest = {
+    finetunes:CreateFileRequest trainingFileRequest = {
         file: {fileContent: trainingFileContent, fileName: trainingFileName},
         purpose: "fine-tune"
     };
-    CreateFileRequest validationFileRequest = {
+    finetunes:CreateFileRequest validationFileRequest = {
         file: {fileContent: validationFileContent, fileName: validationFileName},
         purpose: "fine-tune"
     };
 
-    OpenAIFile trainingFileResponse =
+    finetunes:OpenAIFile trainingFileResponse =
         check openAIFinetunes->/files.post(trainingFileRequest);
-    OpenAIFile validationFileResponse =
+    finetunes:OpenAIFile validationFileResponse =
         check openAIFinetunes->/files.post(validationFileRequest);
 
     string trainingFileId = trainingFileResponse.id;
@@ -37,7 +36,7 @@ public function main() returns error? {
     io:println("Training file id: " + trainingFileId);
     io:println("Validation file id: " + validationFileId);
 
-    CreateFineTuningJobRequest fineTuneRequest = {
+    finetunes:CreateFineTuningJobRequest fineTuneRequest = {
         model: "gpt-3.5-turbo",
         training_file: trainingFileId,
         validation_file: validationFileId,
@@ -48,12 +47,12 @@ public function main() returns error? {
         }
     };
 
-    FineTuningJob fineTuneResponse =
+    finetunes:FineTuningJob fineTuneResponse =
         check openAIFinetunes->/fine_tuning/jobs.post(fineTuneRequest);
     string fineTuneJobId = fineTuneResponse.id;
     io:println("Fine-tuning job id: " + fineTuneJobId);
 
-    FineTuningJob fineTuneJob =
+    finetunes:FineTuningJob fineTuneJob =
         check openAIFinetunes->/fine_tuning/jobs/[fineTuneJobId].get();
 
     io:print("Validating files...");
@@ -72,10 +71,10 @@ public function main() returns error? {
     }
 
     io:println("\nTraining...");
+    finetunes:ListFineTuningJobEventsResponse eventsResponse;
     while (fineTuneJob.status == "running") {
         fineTuneJob = check openAIFinetunes->/fine_tuning/jobs/[fineTuneJobId].get();
-        ListFineTuningJobEventsResponse eventsResponse =
-        check openAIFinetunes->/fine_tuning/jobs/[fineTuneJobId]/events.get();
+        eventsResponse = check openAIFinetunes->/fine_tuning/jobs/[fineTuneJobId]/events.get();
         io:println(eventsResponse.data[0].message);
         runtime:sleep(1);
     }

@@ -2,7 +2,7 @@
 distribution = "2201.9.2"
 org = "ballerinax"
 name = "openai.finetunes"
-version = "1.0.5"
+version = "1.0.7"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
 keywords = [] # TODO: Add keywords
