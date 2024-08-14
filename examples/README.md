@@ -1,6 +1,6 @@
 # Examples
 
-The `ballerinax/openai.finetunes` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-openai.finetunes/tree/main/examples), covering use cases like cache management, session management, and rate limiting.
+The `ballerinax/openai.finetunes` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-openai.finetunes/tree/main/examples), covering use cases like file uploading, finetuning models, getting events/checkpoints of models and deleting files.
 
 1. [Sarcastic Bot](https://github.com/ballerina-platform/module-ballerinax-openai.finetunes/tree/main/examples/Sarcastic-bot) - Fine-tune the GPT-3.5-turbo model to generate sarcastic responses 
 
