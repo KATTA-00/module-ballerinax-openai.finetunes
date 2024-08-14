@@ -68,7 +68,7 @@ public function main() returns error? {
         purpose: "fine-tune"
     };
 
-    finetunes:OpenAIFile fileRes = check openaiFinetunes->/files.post(req);
+    finetunes:OpenAIFile fileRes = check openAIFinetunes->/files.post(req);
 
     string fileId = fileRes.id;
 
@@ -78,7 +78,7 @@ public function main() returns error? {
     };
 
     finetunes:FineTuningJob fineTuneResponse = 
-        check openaiFinetunes->/fine_tuning/jobs.post(fineTuneRequest);
+        check openAIFinetunes->/fine_tuning/jobs.post(fineTuneRequest);
 }
 ```
 
