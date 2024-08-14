@@ -1,7 +1,7 @@
 
 ## Sarcastic Bot
 
-This use case demonstrates how the OpenAI Fine-tunes API v1 can be harnessed to fine-tune the GPT-3.5-turbo model to produce sarcastic responses. The example showcases a series of steps that utilize the OpenAI Files API v1 to upload training data, followed by using the OpenAI Fine-tunes API v1 to fine-tune the GPT-3.5-turbo model with that data, transforming it into a master of sarcasm.
+This use case demonstrates how the OpenAI Fine-tunes API v1 can be harnessed to fine-tune the GPT-3.5-turbo model to produce sarcastic responses. The example showcases a series of steps that utilize the OpenAI Files API v1 to upload training data, followed by using the OpenAI Fine-tunes API v1 to fine-tune the GPT-3.5-turbo model with that data, getting the traning model events.
 
 ## Prerequisites
 
