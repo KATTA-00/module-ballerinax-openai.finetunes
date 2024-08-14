@@ -17,7 +17,7 @@ Create a `Config.toml` file in the example's root directory as follows:
 token = "<API key>"
 ```
 
-## Run the Example
+## Run the example
 
 Execute the following command to run the example:
 
