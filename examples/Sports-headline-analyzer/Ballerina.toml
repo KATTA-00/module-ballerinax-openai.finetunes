@@ -1,5 +1,5 @@
 [package]
-org = "kanishka"
+org = "wso2"
 name = "sports_headline_analyzer"
 version = "0.1.0"
 distribution = "2201.9.2"
