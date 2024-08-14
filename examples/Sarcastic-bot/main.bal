@@ -22,23 +22,23 @@ configurable string token = ?;
 const SERVICE_URL = "https://api.openai.com/v1";
 const TRAINING_FILENAME = "training.jsonl";
 const VALIDATION_FILENAME = "validation.jsonl";
-const TRAINING_FILEPATH = "./data/" + trainingFileName;
-const VALIDATION_FILEPATH = "./data/" + validationFileName;
+const TRAINING_FILEPATH = "./data/" + TRAINING_FILENAME;
+const VALIDATION_FILEPATH = "./data/" + VALIDATION_FILENAME;
 
 final finetunes:ConnectionConfig config = {auth: {token}};
-final finetunes:Client openAIFinetunes = check new finetunes:Client(config, serviceUrl);
+final finetunes:Client openAIFinetunes = check new finetunes:Client(config, SERVICE_URL);
 
 public function main() returns error? {
 
-    byte[] trainingFileContent = check io:fileReadBytes(trainingFilePath);
-    byte[] validationFileContent = check io:fileReadBytes(validationFilePath);
+    byte[] trainingFileContent = check io:fileReadBytes(TRAINING_FILEPATH);
+    byte[] validationFileContent = check io:fileReadBytes(VALIDATION_FILEPATH);
 
     finetunes:CreateFileRequest trainingFileRequest = {
-        file: {fileContent: trainingFileContent, fileName: trainingFileName},
+        file: {fileContent: trainingFileContent, fileName: TRAINING_FILENAME},
         purpose: "fine-tune"
     };
     finetunes:CreateFileRequest validationFileRequest = {
-        file: {fileContent: validationFileContent, fileName: validationFileName},
+        file: {fileContent: validationFileContent, fileName: VALIDATION_FILENAME},
         purpose: "fine-tune"
     };
 
@@ -72,15 +72,14 @@ public function main() returns error? {
         check openAIFinetunes->/fine_tuning/jobs/[fineTuneJobId].get();
 
     io:print("Validating files...");
-    while (fineTuneJob.status == "validating_files") {
+    while fineTuneJob.status == "validating_files" {
         io:print(".");
         fineTuneJob = check openAIFinetunes->/fine_tuning/jobs/[fineTuneJobId].get();
-
         runtime:sleep(1);
     }
 
     io:print("\nFiles validated successfully.");
-    while (fineTuneJob.status == "queued") {
+    while fineTuneJob.status == "queued" {
         io:print(".");
         fineTuneJob = check openAIFinetunes->/fine_tuning/jobs/[fineTuneJobId].get();
         runtime:sleep(1);
@@ -88,14 +87,14 @@ public function main() returns error? {
 
     io:println("\nTraining...");
     finetunes:ListFineTuningJobEventsResponse eventsResponse;
-    while (fineTuneJob.status == "running") {
+    while fineTuneJob.status == "running" {
         fineTuneJob = check openAIFinetunes->/fine_tuning/jobs/[fineTuneJobId].get();
         eventsResponse = check openAIFinetunes->/fine_tuning/jobs/[fineTuneJobId]/events.get();
         io:println(eventsResponse.data[0].message);
         runtime:sleep(1);
     }
 
-    if (fineTuneJob.status != "succeeded") {
+    if fineTuneJob.status != "succeeded" {
         io:println("Fine-tuning job failed.");
         return;
     }

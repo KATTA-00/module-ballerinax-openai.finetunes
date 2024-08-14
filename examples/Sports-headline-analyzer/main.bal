@@ -19,19 +19,19 @@ import ballerina/lang.runtime;
 import ballerinax/openai.finetunes;
 
 configurable string token = ?;
-string serviceUrl = "https://api.openai.com/v1";
-string trainingFileName = "training.jsonl";
-string trainingFilePath = "./data/" + trainingFileName;
+string SERVICE_URL = "https://api.openai.com/v1";
+string TRAINING_FILENAME = "training.jsonl";
+string TRAINING_FILEPATH = "./data/" + TRAINING_FILENAME;
 
 final finetunes:ConnectionConfig config = {auth: {token}};
-final finetunes:Client openAIFinetunes = check new finetunes:Client(config, serviceUrl);
+final finetunes:Client openAIFinetunes = check new finetunes:Client(config, SERVICE_URL);
 
 public function main() returns error? {
 
-    byte[] trainingFileContent = check io:fileReadBytes(trainingFilePath);
+    byte[] trainingFileContent = check io:fileReadBytes(TRAINING_FILEPATH);
 
     finetunes:CreateFileRequest trainingFileRequest = {
-        file: {fileContent: trainingFileContent, fileName: trainingFileName},
+        file: {fileContent: trainingFileContent, fileName: TRAINING_FILENAME},
         purpose: "fine-tune"
     };
 
@@ -60,21 +60,21 @@ public function main() returns error? {
         check openAIFinetunes->/fine_tuning/jobs/[fineTuneJobId].get();
 
     io:print("Validating files...");
-    while (fineTuneJob.status == "validating_files") {
+    while fineTuneJob.status == "validating_files" {
         io:print(".");
         fineTuneJob = check openAIFinetunes->/fine_tuning/jobs/[fineTuneJobId].get();
         runtime:sleep(1);
     }
 
     io:print("\nFiles validated successfully.");
-    while (fineTuneJob.status == "queued") {
+    while fineTuneJob.status == "queued" {
         io:print(".");
         fineTuneJob = check openAIFinetunes->/fine_tuning/jobs/[fineTuneJobId].get();
         runtime:sleep(1);
     }
 
     io:print("\nTraining...");
-    while (fineTuneJob.status == "running") {
+    while fineTuneJob.status == "running" {
         fineTuneJob = check openAIFinetunes->/fine_tuning/jobs/[fineTuneJobId].get();
         io:print(".");
         runtime:sleep(1);
@@ -84,7 +84,7 @@ public function main() returns error? {
         io:println("Fine-tuning job failed.");
         finetunes:DeleteFileResponse deleteFileResponse =
             check openAIFinetunes->/files/[trainingFileId].delete();
-        if (deleteFileResponse.deleted == true) {
+        if deleteFileResponse.deleted {
             io:println("Training file deleted successfully.");
         } else {
             io:println("Failed to delete the training file.");
@@ -110,7 +110,7 @@ public function main() returns error? {
 
     finetunes:DeleteFileResponse deleteFileResponse =
         check openAIFinetunes->/files/[trainingFileId].delete();
-    if (deleteFileResponse.deleted) {
+    if deleteFileResponse.deleted {
         io:println("Training file deleted successfully.");
     } else {
         io:println("Failed to delete the training file.");
