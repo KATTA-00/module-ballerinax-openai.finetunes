@@ -17,18 +17,19 @@
 import ballerina/os;
 import ballerina/test;
 
-// Configurable variables for environment setup.
 configurable boolean isLiveServer = os:getEnv("isLiveServer") == "true";
 configurable string token = isLiveServer ? os:getEnv("OPENAI_API_KEY") : "test";
 configurable string serviceUrl = isLiveServer ? "https://api.openai.com/v1" : "http://localhost:9090";
 configurable string apiKey = isLiveServer ? token : "";
 
-// Initialize the connection configuration and client.
-final ConnectionConfig config = {auth: {token: apiKey}};
+final ConnectionConfig config = {
+    auth: {
+        token: apiKey
+    }
+};
 final Client openAIFinetunes = check new Client(config, serviceUrl);
 
-// Define sample file content and name.
-final string fileName = "sample.jsonl";
+const string fileName = "sample.jsonl";
 const byte[] fileContent = [123, 34, 109, 101, 115, 115, 97, 103, 101, 115, 34, 58, 32, 91, 123, 34, 114, 111, 108, 101, 34, 58, 32, 34, 117, 115, 101, 114, 34, 44, 32, 34, 99, 111, 110, 116, 101, 110, 116, 34, 58, 32, 34, 87, 104, 97, 116, 32, 105, 115, 32, 116, 104, 101, 32, 99, 97, 112, 105, 116, 97, 108, 32, 111, 102, 32, 70, 114, 97, 110, 99, 101, 63, 34, 125, 44, 32, 123, 34, 114, 111, 108, 101, 34, 58, 32, 34, 97, 115, 115, 105, 115, 116, 97, 110, 116, 34, 44, 32, 34, 99, 111, 110, 116, 101, 110, 116, 34, 58, 32, 34, 84, 104, 101, 32, 99, 97, 112, 105, 116, 97, 108, 32, 111, 102, 32, 70, 114, 97, 110, 99, 101, 32, 105, 115, 32, 80, 97, 114, 105, 115, 46, 34, 125, 93, 125, 13, 10, 123, 34, 109, 101, 115, 115, 97, 103, 101, 115, 34, 58, 32, 91, 123, 34, 114, 111, 108, 101, 34, 58, 32, 34, 117, 115, 101, 114, 34, 44, 32, 34, 99, 111, 110, 116, 101, 110, 116, 34, 58, 32, 34, 87, 104, 97, 116, 32, 105, 115, 32, 116, 104, 101, 32, 112, 114, 105, 109, 97, 114, 121, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 111, 102, 32, 116, 104, 101, 32, 104, 101, 97, 114, 116, 63, 34, 125, 44, 32, 123, 34, 114, 111, 108, 101, 34, 58, 32, 34, 97, 115, 115, 105, 115, 116, 97, 110, 116, 34, 44, 32, 34, 99, 111, 110, 116, 101, 110, 116, 34, 58, 32, 34, 84, 104, 101, 32, 112, 114, 105, 109, 97, 114, 121, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 111, 102, 32, 116, 104, 101, 32, 104, 101, 97, 114, 116, 32, 105, 115, 32, 116, 111, 32, 112, 117, 109, 112, 32, 98, 108, 111, 111, 100, 32, 116, 104, 114, 111, 117, 103, 104, 111, 117, 116, 32, 116, 104, 101, 32, 98, 111, 100, 121, 46, 34, 125, 93, 125, 13, 10];
 string modelId = "gpt-3.5-turbo";
 string fileId = "";
@@ -45,7 +46,7 @@ function testListModels() returns error? {
 
 @test:Config {
     dependsOn: [testListModels],
-    groups: ["Models", "live_tests", "mock_tests"]
+    groups: ["models", "live_tests", "mock_tests"]
 }
 function testRetrieveModel() returns error? {
     Model modelResponse = check openAIFinetunes->/models/[modelId].get();
@@ -56,7 +57,7 @@ function testRetrieveModel() returns error? {
 @test:Config {
     dependsOn: [testCreateFineTuningJob, testListModels, testRetrieveModel, testListFineTuningJobCheckpoints, testListFineTuningEvents],
     enable: isLiveServer ? false : true, // Enable this test only for mock server.
-    groups: ["Models", "mock_tests"]
+    groups: ["models", "mock_tests"]
 }
 function testDeleteModel() returns error? {
     DeleteModelResponse modelResponseDelete = check openAIFinetunes->/models/[modelId].delete();
@@ -65,7 +66,7 @@ function testDeleteModel() returns error? {
 }
 
 @test:Config {
-    groups: ["Files", "live_tests", "mock_tests"]
+    groups: ["files", "live_tests", "mock_tests"]
 }
 function testListFiles() returns error? {
     ListFilesResponse filesResponse = check openAIFinetunes->/files.get();
@@ -75,7 +76,7 @@ function testListFiles() returns error? {
 
 @test:Config {
     dependsOn: [testListFiles],
-    groups: ["Files", "live_tests", "mock_tests"]
+    groups: ["files", "live_tests", "mock_tests"]
 }
 function testCreateFile() returns error? {
     CreateFileRequest fileRequest = {
@@ -91,7 +92,7 @@ function testCreateFile() returns error? {
 
 @test:Config {
     dependsOn: [testCreateFile],
-    groups: ["Files", "live_tests", "mock_tests"]
+    groups: ["files", "live_tests", "mock_tests"]
 }
 function testRetrieveFile() returns error? {
     OpenAIFile fileResponse = check openAIFinetunes->/files/[fileId].get();
@@ -101,7 +102,7 @@ function testRetrieveFile() returns error? {
 
 @test:Config {
     dependsOn: [testCreateFile],
-    groups: ["Files", "live_tests", "mock_tests"]
+    groups: ["files", "live_tests", "mock_tests"]
 }
 function testDownloadFile() returns error? {
     byte[] fileContentDownload = check openAIFinetunes->/files/[fileId]/content.get();
@@ -110,7 +111,7 @@ function testDownloadFile() returns error? {
 
 @test:Config {
     dependsOn: [testCreateFile, testRetrieveFile, testDownloadFile, testCreateFineTuningJob],
-    groups: ["Files", "live_tests", "mock_tests"]
+    groups: ["files", "live_tests", "mock_tests"]
 }
 function testDeleteFile() returns error? {
     DeleteFileResponse fileResponseDelete = check openAIFinetunes->/files/[fileId].delete();
@@ -119,7 +120,7 @@ function testDeleteFile() returns error? {
 }
 
 @test:Config {
-    groups: ["Fine-tuning", "live_tests", "mock_tests"]
+    groups: ["fine-tuning", "live_tests", "mock_tests"]
 }
 function testListPaginatedFineTuningJobs() returns error? {
     ListPaginatedFineTuningJobsResponse jobsResponse = check openAIFinetunes->/fine_tuning/jobs.get();
@@ -129,7 +130,7 @@ function testListPaginatedFineTuningJobs() returns error? {
 
 @test:Config {
     dependsOn: [testListModels, testCreateFile],
-    groups: ["Fine-tuning", "live_tests", "mock_tests"]
+    groups: ["fine-tuning", "live_tests", "mock_tests"]
 }
 function testCreateFineTuningJob() returns error? {
     CreateFineTuningJobRequest fineTuneRequest = {
@@ -145,7 +146,7 @@ function testCreateFineTuningJob() returns error? {
 
 @test:Config {
     dependsOn: [testCreateFineTuningJob],
-    groups: ["Fine-tuning", "live_tests", "mock_tests"]
+    groups: ["fine-tuning", "live_tests", "mock_tests"]
 }
 function testRetrieveFineTuningJob() returns error? {
     FineTuningJob jobResponse = check openAIFinetunes->/fine_tuning/jobs/[jobId].get();
@@ -155,7 +156,7 @@ function testRetrieveFineTuningJob() returns error? {
 
 @test:Config {
     dependsOn: [testCreateFineTuningJob],
-    groups: ["Fine-tuning", "live_tests", "mock_tests"]
+    groups: ["fine-tuning", "live_tests", "mock_tests"]
 }
 function testListFineTuningEvents() returns error? {
     ListFineTuningJobEventsResponse eventsResponse = check openAIFinetunes->/fine_tuning/jobs/[jobId]/events.get();
@@ -165,7 +166,7 @@ function testListFineTuningEvents() returns error? {
 
 @test:Config {
     dependsOn: [testCreateFineTuningJob],
-    groups: ["Fine-tuning", "live_tests", "mock_tests"]
+    groups: ["fine-tuning", "live_tests", "mock_tests"]
 }
 function testListFineTuningJobCheckpoints() returns error? {
     ListFineTuningJobCheckpointsResponse checkpointsResponse = check openAIFinetunes->/fine_tuning/jobs/[jobId]/checkpoints.get();
@@ -176,7 +177,7 @@ function testListFineTuningJobCheckpoints() returns error? {
 @test:Config {
     dependsOn: [testCreateFineTuningJob],
     enable: isLiveServer ? false : true, // Enable this test only for mock server.
-    groups: ["Fine-tuning", "mock_tests"]
+    groups: ["fine-tuning", "mock_tests"]
 }
 function testCancelFineTuningJob() returns error? {
     FineTuningJob jobResponse = check openAIFinetunes->/fine_tuning/jobs/[jobId]/cancel.post();
