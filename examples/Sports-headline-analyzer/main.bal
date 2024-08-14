@@ -5,7 +5,6 @@ import ballerina/lang.runtime;
 
 configurable string token = ?;
 string serviceUrl = "https://api.openai.com/v1";
-
 string trainingFileName = "training.jsonl";
 string trainingFilePath = "./data/" + trainingFileName;
 
