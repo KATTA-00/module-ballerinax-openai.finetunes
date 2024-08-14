@@ -35,7 +35,7 @@ string fileId = "";
 string jobId = "";
 
 @test:Config {
-    groups: ["Models", "live_tests", "mock_tests"]
+    groups: ["models", "live_tests", "mock_tests"]
 }
 function testListModels() returns error? {
     ListModelsResponse modelsResponse = check openAIFinetunes->/models.get();
