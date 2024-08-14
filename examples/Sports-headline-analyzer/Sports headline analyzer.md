@@ -5,7 +5,7 @@ This use case illustrates how the OpenAI Fine-tunes API v1 can be used to fine-t
 
 ## Prerequisites
 
-### 1. Generate an API Key
+### 1. Generate an API key
 
 Refer to the [Setup guide](https://central.ballerina.io/ballerinax/openai.finetunes/latest#setup-guide) to obtain the API key.
 
