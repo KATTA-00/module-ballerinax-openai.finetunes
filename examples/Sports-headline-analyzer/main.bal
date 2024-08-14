@@ -59,13 +59,12 @@ public function main() returns error? {
         runtime:sleep(1);
     }
 
-    io:println("\nTraining...");
+    io:print("\nTraining...");
     while (fineTuneJob.status == "running") {
         fineTuneJob = check openAIFinetunes->/fine_tuning/jobs/[fineTuneJobId].get();
         io:print(".");
         runtime:sleep(1);
     }
-
 
     if (fineTuneJob.status != "succeeded") {
         io:println("Fine-tuning job failed.");
@@ -78,14 +77,13 @@ public function main() returns error? {
         }
 
         return;
-    }else {
-        io:println("\n");
     }
 
+    io:println("\n");
     ListFineTuningJobCheckpointsResponse checkpointsResponse =
             check openAIFinetunes->/fine_tuning/jobs/[fineTuneJobId]/checkpoints.get();
 
-    foreach FineTuningJobCheckpoint item in checkpointsResponse.data {
+    foreach FineTuningJobCheckpoint item in checkpointsResponse.data.reverse() {
         io:print("step: ", item.metrics.step);
         io:print(", train loss: ", item.metrics.train_loss);
         io:println(", train mean token accuracy: ", item.metrics.train_mean_token_accuracy);
@@ -93,7 +91,6 @@ public function main() returns error? {
 
     io:println("\nFine-tuning job details: ");
     io:println("Fine-tuned Model: ", fineTuneJob.fine_tuned_model);
-    io:println("Organization ID: ", fineTuneJob.organization_id);
     io:println("Model: ", fineTuneJob.model);
     io:println("Fine-tuning job completed successfully.");
 

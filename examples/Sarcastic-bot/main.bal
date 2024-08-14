@@ -88,7 +88,6 @@ public function main() returns error? {
 
     io:println("\nFine-tuning job details: ");
     io:println("Fine-tuned Model: ", fineTuneJob.fine_tuned_model);
-    io:println("Organization ID: ", fineTuneJob.organization_id);
     io:println("Model: ", fineTuneJob.model);
     io:println("Fine-tuning job completed successfully.");
 }

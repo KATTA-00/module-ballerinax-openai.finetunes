@@ -1,7 +1,7 @@
 
 ## Sports Headlines Analyzer
 
-This use case demonstrates how the OpenAI Fine-tunes API v1 can be harnessed to fine-tune the GPT-4o-mini model to extract structured information from sports headlines. The example showcases a series of steps that utilize the OpenAI Files API v1 to upload training data, followed by using the OpenAI Fine-tunes API v1 to fine-tune the GPT-4o-mini model with that data.
+This use case illustrates how the OpenAI Fine-tunes API v1 can be used to fine-tune the GPT-4o-mini model for extracting structured information from sports headlines. The example outlines a series of steps that include using the OpenAI Files API v1 to upload training data, then employing the OpenAI Fine-tunes API v1 to fine-tune the GPT-4o-mini model with this data, and finally printing the model's checkpoints and deleting the data file.
 
 ## Prerequisites
 
