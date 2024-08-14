@@ -80,7 +80,7 @@ public function main() returns error? {
         runtime:sleep(1);
     }
 
-    if (fineTuneJob.status != "succeeded") {
+    if fineTuneJob.status != "succeeded" {
         io:println("Fine-tuning job failed.");
         finetunes:DeleteFileResponse deleteFileResponse =
             check openAIFinetunes->/files/[trainingFileId].delete();
