@@ -95,7 +95,7 @@ public function main() returns error? {
 
     io:println("\n");
     finetunes:ListFineTuningJobCheckpointsResponse checkpointsResponse =
-            check openAIFinetunes->/fine_tuning/jobs/[fineTuneJobId]/checkpoints.get();
+        check openAIFinetunes->/fine_tuning/jobs/[fineTuneJobId]/checkpoints.get();
 
     foreach finetunes:FineTuningJobCheckpoint item in checkpointsResponse.data.reverse() {
         io:print("step: ", item.metrics.step);
