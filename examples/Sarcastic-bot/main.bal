@@ -26,7 +26,7 @@ string trainingFilePath = "./data/" + trainingFileName;
 string validationFilePath = "./data/" + validationFileName;
 
 final finetunes:ConnectionConfig config = {auth: {token}};
-final finetunes:Client openAIFinetunes = check new Client(config, serviceUrl);
+final finetunes:Client openAIFinetunes = check new finetunes:Client(config, serviceUrl);
 
 public function main() returns error? {
 

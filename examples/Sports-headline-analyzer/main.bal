@@ -24,7 +24,7 @@ string trainingFileName = "training.jsonl";
 string trainingFilePath = "./data/" + trainingFileName;
 
 final finetunes:ConnectionConfig config = {auth: {token}};
-final finetunes:Client openAIFinetunes = check new Client(config, serviceUrl);
+final finetunes:Client openAIFinetunes = check new finetunes:Client(config, serviceUrl);
 
 public function main() returns error? {
 
