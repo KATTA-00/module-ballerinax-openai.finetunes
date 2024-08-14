@@ -4,11 +4,11 @@ name = "Sarcastic_bot"
 version = "0.1.0"
 distribution = "2201.9.2"
 
-[build-options]
-observabilityIncluded = true
-
 [[dependency]]
 org = "ballerinax"
 name = "openai.finetunes"
 version = "1.0.7"
 repository = "local"
+
+[build-options]
+observabilityIncluded = true
