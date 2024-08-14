@@ -110,7 +110,7 @@ public function main() returns error? {
 
     finetunes:DeleteFileResponse deleteFileResponse =
         check openAIFinetunes->/files/[trainingFileId].delete();
-    if (deleteFileResponse.deleted == true) {
+    if (deleteFileResponse.deleted) {
         io:println("Training file deleted successfully.");
     } else {
         io:println("Failed to delete the training file.");
