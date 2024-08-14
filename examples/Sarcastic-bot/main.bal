@@ -19,11 +19,11 @@ import ballerina/lang.runtime;
 import ballerinax/openai.finetunes;
 
 configurable string token = ?;
-string serviceUrl = "https://api.openai.com/v1";
-string trainingFileName = "training.jsonl";
-string validationFileName = "validation.jsonl";
-string trainingFilePath = "./data/" + trainingFileName;
-string validationFilePath = "./data/" + validationFileName;
+const SERVICE_URL = "https://api.openai.com/v1";
+const TRAINING_FILENAME = "training.jsonl";
+const VALIDATION_FILENAME = "validation.jsonl";
+const TRAINING_FILEPATH = "./data/" + trainingFileName;
+const VALIDATION_FILEPATH = "./data/" + validationFileName;
 
 final finetunes:ConnectionConfig config = {auth: {token}};
 final finetunes:Client openAIFinetunes = check new finetunes:Client(config, serviceUrl);
