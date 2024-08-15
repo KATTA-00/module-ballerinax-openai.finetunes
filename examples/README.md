@@ -16,7 +16,7 @@ The `ballerinax/openai.finetunes` connector provides practical examples illustra
     token = "<API Key>"
     ```
 
-## Running an Example
+## Running an example
 
 Execute the following commands to build an example from the source:
 
