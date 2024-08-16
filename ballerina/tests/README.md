@@ -28,7 +28,7 @@ This environment variable can be configured within the `Config.toml` file locate
 Create a `Config.toml` file in the `tests` directory with the following content:
 
 ```toml
-IS_LIVE_SERVER = false
+isLiveServer = false
 ```
 
 ### Using Environment Variables
@@ -60,8 +60,8 @@ Then, run the following command to execute the tests:
 Create a `Config.toml` file in the `tests` directory and add your authentication credentials:
 
 ```toml
-IS_LIVE_SERVER = true
-OPENAI_API_KEY = "<your-openAI-api-key>"
+isLiveServer = true
+token = "<your-openAI-api-key>"
 ```
 
 ### Using Environment Variables

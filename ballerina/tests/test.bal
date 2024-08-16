@@ -17,13 +17,13 @@
 import ballerina/os;
 import ballerina/test;
 
-configurable boolean IS_LIVE_SERVER = os:getEnv("IS_LIVE_SERVER") == "true";
-configurable string OPENAI_API_KEY = IS_LIVE_SERVER ? os:getEnv("OPENAI_API_KEY") : "";
-configurable string serviceUrl = IS_LIVE_SERVER ? "https://api.openai.com/v1" : "http://localhost:9090";
+configurable boolean isLiveServer = os:getEnv("IS_LIVE_SERVER") == "true";
+configurable string token = isLiveServer ? os:getEnv("OPENAI_API_KEY") : "";
+configurable string serviceUrl = isLiveServer ? "https://api.openai.com/v1" : "http://localhost:9090";
 
 final ConnectionConfig config = {
     auth: {
-        token: OPENAI_API_KEY
+        token
     }
 };
 final Client openAIFinetunes = check new Client(config, serviceUrl);
@@ -55,7 +55,7 @@ function testRetrieveModel() returns error? {
 
 @test:Config {
     dependsOn: [testCreateFineTuningJob, testListModels, testRetrieveModel, testListFineTuningJobCheckpoints, testListFineTuningEvents],
-    enable: IS_LIVE_SERVER ? false : true, // Enable this test only for mock server.
+    enable: isLiveServer ? false : true, // Enable this test only for mock server.
     groups: ["models", "mock_tests"]
 }
 function testDeleteModel() returns error? {
@@ -175,7 +175,7 @@ function testListFineTuningJobCheckpoints() returns error? {
 
 @test:Config {
     dependsOn: [testCreateFineTuningJob],
-    enable: IS_LIVE_SERVER ? false : true, // Enable this test only for mock server.
+    enable: isLiveServer ? false : true, // Enable this test only for mock server.
     groups: ["fine-tuning", "mock_tests"]
 }
 function testCancelFineTuningJob() returns error? {
