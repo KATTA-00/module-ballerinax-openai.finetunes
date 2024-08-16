@@ -1,12 +1,12 @@
 [package]
-distribution = "2201.9.2"
+distribution = "2201.9.3"
 org = "ballerinax"
 name = "openai.finetunes"
 version = "@toml.version@"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
-keywords = [] # TODO: Add keywords
-icon = "icon.png" # TODO: Add icon
+keywords = ["AI/Fine-tunes", "OpenAI", "Cost/Paid", "Files", "Models", "Vendor/OpenAI"]
+icon = "icon.png"
 repository = "https://github.com/ballerina-platform/module-ballerinax-openai.finetunes"
 
 [build-options]
