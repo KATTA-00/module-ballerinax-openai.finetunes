@@ -3,7 +3,7 @@
 
 [OpenAI](https://openai.com/), an AI research organization focused on creating friendly AI for humanity, offers the [OpenAI API](https://platform.openai.com/docs/api-reference/introduction) to access its powerful AI models for tasks like natural language processing and image generation.
 
-The `ballarinax/openai.finetunes` package offers APIs to connect and interact with [the fine-tuning related endpoints of OpenAI REST API v1](https://platform.openai.com/docs/guides/fine-tuning) allowing users to customize OpenAI's AI models to meet specific needs.
+The `ballarinax/openai.finetunes` package offers APIs to connect and interact with [the fine-tuning related endpoints of OpenAI REST API v1](https://platform.openai.com/docs/api-reference/fine-tuning) allowing users to customize OpenAI's AI models to meet specific needs.
 
 ## Setup guide
 
@@ -90,7 +90,7 @@ bal run
 
 ## Examples
 
-The `OpenAI Finetunes` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/module-ballerinax-openai.finetunes/tree/main/examples/), covering the following use cases:
+The `OpenAI Finetunes` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-openai.finetunes/tree/main/examples), covering the following use cases:
 
 1. [Sarcastic bot](https://github.com/ballerina-platform/module-ballerinax-openai.finetunes/tree/main/examples/Sarcastic-bot) - Fine-tune the GPT-3.5-turbo model to generate sarcastic responses 
 
