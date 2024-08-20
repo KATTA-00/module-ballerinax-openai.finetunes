@@ -90,6 +90,6 @@ bal run
 
 ## Examples
 
-The `OpenAI Finetunes` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/module-ballerinax-openai.finetunes/tree/main/examples/), covering the following use cases:
+The `OpenAI Finetunes` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-openai.finetunes/tree/main/examples), covering the following use cases:
 
 [//]: # (TODO: Add examples)
