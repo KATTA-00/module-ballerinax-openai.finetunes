@@ -27,7 +27,11 @@ const VALIDATION_FILEPATH = "./data/" + VALIDATION_FILENAME;
 
 public function main() returns error? {
 
-    final finetunes:ConnectionConfig config = {auth: {token}};
+    final finetunes:ConnectionConfig config = {
+        auth: {
+            token
+        }
+    };
     final finetunes:Client openAIFinetunes = check new finetunes:Client(config, SERVICE_URL);
 
     byte[] trainingFileContent = check io:fileReadBytes(TRAINING_FILEPATH);

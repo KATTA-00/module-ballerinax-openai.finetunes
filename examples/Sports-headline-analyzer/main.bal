@@ -25,7 +25,11 @@ string TRAINING_FILEPATH = "./data/" + TRAINING_FILENAME;
 
 public function main() returns error? {
 
-    final finetunes:ConnectionConfig config = {auth: {token}};
+    final finetunes:ConnectionConfig config = {
+        auth: {
+            token
+        }
+    };
     final finetunes:Client openAIFinetunes = check new finetunes:Client(config, SERVICE_URL);
 
     byte[] trainingFileContent = check io:fileReadBytes(TRAINING_FILEPATH);
