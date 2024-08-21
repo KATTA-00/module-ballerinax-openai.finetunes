@@ -43,11 +43,11 @@ import ballerina/io;
 Create a `finetunes:ConnectionConfig` with the obtained API Key and initialize the connector.
 
 ```ballerina
-configurable string apiKey = ?;
+configurable string token = ?;
 
 final finetunes:Client openAIFinetunes = check new({
     auth: {
-        token: apiKey
+        token
     }
 });
 ```
