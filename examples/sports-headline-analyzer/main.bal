@@ -23,10 +23,14 @@ string SERVICE_URL = "https://api.openai.com/v1";
 string TRAINING_FILENAME = "training.jsonl";
 string TRAINING_FILEPATH = "./data/" + TRAINING_FILENAME;
 
-final finetunes:ConnectionConfig config = {auth: {token}};
-final finetunes:Client openAIFinetunes = check new finetunes:Client(config, SERVICE_URL);
-
 public function main() returns error? {
+
+    final finetunes:ConnectionConfig config = {
+        auth: {
+            token
+        }
+    };
+    final finetunes:Client openAIFinetunes = check new finetunes:Client(config, SERVICE_URL);
 
     byte[] trainingFileContent = check io:fileReadBytes(TRAINING_FILEPATH);
 
