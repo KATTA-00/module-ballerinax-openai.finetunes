@@ -25,10 +25,10 @@ const VALIDATION_FILENAME = "validation.jsonl";
 const TRAINING_FILEPATH = "./data/" + TRAINING_FILENAME;
 const VALIDATION_FILEPATH = "./data/" + VALIDATION_FILENAME;
 
-final finetunes:ConnectionConfig config = {auth: {token}};
-final finetunes:Client openAIFinetunes = check new finetunes:Client(config, SERVICE_URL);
-
 public function main() returns error? {
+
+    final finetunes:ConnectionConfig config = {auth: {token}};
+    final finetunes:Client openAIFinetunes = check new finetunes:Client(config, SERVICE_URL);
 
     byte[] trainingFileContent = check io:fileReadBytes(TRAINING_FILEPATH);
     byte[] validationFileContent = check io:fileReadBytes(VALIDATION_FILEPATH);
