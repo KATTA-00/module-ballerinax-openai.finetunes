@@ -7,7 +7,8 @@ _Edition_: Swan Lake
 
 This document records the sanitation done on top of the official OpenAPI specification from OpenAI Finetune. The OpenAPI specification is obtained from the [OpenAPI specification for the OpenAI API](https://github.com/openai/openai-openapi/blob/master/openapi.yaml). These changes are implemented to enhance the overall usability and readability of the generated client.
 
-1. **Changed the `status_details` property parameter of the `OpenAIFile` object**:
+1. **Changed the `status_details` property parameter of the `OpenAIFile` object as a workaround for the issue https://github.com/ballerina-platform/ballerina-lang/issues/43304**:
+
    - **Original**:
       - Deprecated: `true`
       - Nullable parameter: Not included
@@ -16,8 +17,7 @@ This document records the sanitation done on top of the official OpenAPI specifi
       - Removed the `deprecated` parameter
       - Added the `nullable` parameter as `true`
 
-   - **Reasons**: The original configuration was generated successfully, but it caused a compile-time error. Updating the parameters resolved this error, enhancing the overall functionality and ensuring smooth compilation.
-
+   - **Reasons**: The original configuration was generated successfully, but it caused a run-time error.
 
 2. **Removed the `default:null` property from the following schemas**:
    - **Changed Schemas**: `CreateCompletionRequest`,`ChatCompletionStreamOptions`,`CreateChatCompletionRequest`
@@ -28,16 +28,16 @@ This document records the sanitation done on top of the official OpenAPI specifi
    - **Updated**:
       - Removed the `default` parameter 
 
-   - **Reason**: This change is done as a workaround for ballerina openapi tool not allowing to generate the client.
+   - **Reason**: This change is done as a temporary workaround until the Ballerina OpenAPI tool supports OpenAPI Specification version v3.1.x(Currently supported upto version 3.0.0)
 
-3. **Removed the Required Field from the `Error` Property of `FineTuningJob` Object`**
+3. **Removed the Required Field from the `Error` Property of `FineTuningJob` Object**:
    - **Original**: The error property of the FineTuningJob object included the code, message, and param as required.
 
    - **Updated**: Removed the required field from the error property.
 
    - **Reasons**: The response does not include the code, message, and param, causing an error of missing required fields when converting.
 
-4. **Changed the response content type in `/files/{file_id}/content` endpoint**
+4. **Changed the response content type in `/files/{file_id}/content` endpoint**:
    - **Original**: The response content type of the `/files/{file_id}/content` endpoint was originally `application/json`.
 
    - **Updated**: The content type has been changed to `application/octet-stream`.
