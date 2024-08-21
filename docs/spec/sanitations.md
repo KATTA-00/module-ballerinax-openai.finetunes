@@ -28,7 +28,7 @@ This document records the sanitation done on top of the official OpenAPI specifi
    - **Updated**:
       - Removed the `default` parameter 
 
-   - **Reason**: This change is done as a temperary workaround until the Ballerina OpenAPI tool supports OpenAPI Specification version v3.1.x(Currently supported upto version 3.0.0)
+   - **Reason**: This change is done as a temporary workaround until the Ballerina OpenAPI tool supports OpenAPI Specification version v3.1.x(Currently supported upto version 3.0.0)
 
 3. **Removed the Required Field from the `Error` Property of `FineTuningJob` Object**:
    - **Original**: The error property of the FineTuningJob object included the code, message, and param as required.
