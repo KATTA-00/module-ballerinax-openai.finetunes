@@ -36,7 +36,7 @@ http:Service mockService = service object {
     # Delete a fine-tuned model. You must have the Owner role in your organization to delete a model.
     #
     # + model - The model to delete
-    # + return - OK 
+    # + return - OK
     resource function delete models/[string model]() returns DeleteModelResponse {
 
         DeleteModelResponse response = {
@@ -51,33 +51,33 @@ http:Service mockService = service object {
     # Immediately cancel a fine-tune job.
     #
     # + fine_tuning_job_id - The ID of the fine-tuning job to cancel.
-    # + return - OK 
+    # + return - OK
     resource function post fine_tuning/jobs/[string fine_tuning_job_id]/cancel() returns OkFineTuningJob {
 
         OkFineTuningJob response = {
             body: {
-                "object": "fine_tuning.job",
-                "id": fine_tuning_job_id,
-                "model": "gpt-3.5-turbo-0125",
-                "created_at": 1723110882,
-                "finished_at": null,
-                "fine_tuned_model": null,
-                "organization_id": "org-Gzp0rlPk9gw4JaNXmPqDJ1H4",
-                "result_files": [],
-                "status": "validating_files",
-                "validation_file": null,
-                "training_file": "file-JZMH9Xxnt7Hg2io6N2kzmlzM",
-                "hyperparameters": {
-                    "n_epochs": "auto",
-                    "batch_size": "auto",
-                    "learning_rate_multiplier": "auto"
+                'object: "fine_tuning.job",
+                id: fine_tuning_job_id,
+                model: "gpt-3.5-turbo-0125",
+                createdAt: 1723110882,
+                finishedAt: (),
+                fineTunedModel: (),
+                organizationId: "org-Gzp0rlPk9gw4JaNXmPqDJ1H4",
+                resultFiles: [],
+                status: "validating_files",
+                validationFile: (),
+                trainingFile: "file-JZMH9Xxnt7Hg2io6N2kzmlzM",
+                hyperparameters: {
+                    nEpochs: "auto",
+                    "batchSize": "auto",
+                    "learningRateMultiplier": "auto"
                 },
-                "trained_tokens": null,
-                "error": {},
-                "user_provided_suffix": null,
-                "seed": 1776549854,
-                "estimated_finish": null,
-                "integrations": []
+                trainedTokens: (),
+                'error: {},
+                "userProvidedSuffix": (),
+                seed: 1776549854,
+                estimatedFinish: (),
+                integrations: []
             },
             headers: {
                 "Content-Type": "application/json"
@@ -90,7 +90,7 @@ http:Service mockService = service object {
     # Delete a file.
     #
     # + file_id - The ID of the file to use for this request.
-    # + return - OK 
+    # + return - OK
     resource function delete files/[string file_id]() returns DeleteFileResponse {
 
         DeleteFileResponse response = {
@@ -105,7 +105,7 @@ http:Service mockService = service object {
     # Returns a list of files that belong to the user's organization.
     #
     # + purpose - Only return files with the given purpose.
-    # + return - OK 
+    # + return - OK
     resource function get files(string? purpose) returns ListFilesResponse {
 
         ListFilesResponse response = {
@@ -119,7 +119,7 @@ http:Service mockService = service object {
                     bytes: 71,
                     created_at: 1723097702,
                     status: "processed",
-                    status_details: null
+                    status_details: ()
                 },
                 {
                     'object: "file",
@@ -129,7 +129,7 @@ http:Service mockService = service object {
                     bytes: 71,
                     created_at: 1723097702,
                     status: "processed",
-                    status_details: null
+                    status_details: ()
                 }
             ]
         };
@@ -140,7 +140,7 @@ http:Service mockService = service object {
     # Returns information about a specific file.
     #
     # + file_id - The ID of the file to use for this request.
-    # + return - OK 
+    # + return - OK
     resource function get files/[string file_id]() returns OpenAIFile {
 
         OpenAIFile response = {
@@ -151,7 +151,7 @@ http:Service mockService = service object {
             bytes: 71,
             created_at: 1723097702,
             status: "processed",
-            status_details: null
+            status_details: ()
         };
 
         return response;
@@ -160,7 +160,7 @@ http:Service mockService = service object {
     # Returns the contents of the specified file.
     #
     # + file_id - The ID of the file to use for this request.
-    # + return - OK 
+    # + return - OK
     resource function get files/[string file_id]/content() returns byte[] {
 
         byte[] response = [123, 34, 116, 101, 120, 116, 34, 58, 34, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 34, 125];
@@ -172,42 +172,42 @@ http:Service mockService = service object {
     #
     # + after - Identifier for the last job from the previous pagination request.
     # + 'limit - Number of fine-tuning jobs to retrieve.
-    # + return - OK 
+    # + return - OK
     resource function get fine_tuning/jobs(string? after, int 'limit = 20) returns ListPaginatedFineTuningJobsResponse {
 
         ListPaginatedFineTuningJobsResponse response = {
-            "object": "list",
-            "data": [
+            'object: "list",
+            data: [
                 {
-                    "object": "fine_tuning.job",
-                    "id": "ftjob-G0rwrYUnRwEWPjDRvxByxPxU",
-                    "model": "gpt-3.5-turbo-0125",
-                    "created_at": 1723097706,
-                    "finished_at": null,
-                    "fine_tuned_model": null,
-                    "organization_id": "org-Gzp0rlPk9gw4JaNXmPqDJ1H4",
-                    "result_files": [],
-                    "status": "failed",
-                    "validation_file": null,
-                    "training_file": "file-JZMH9Xxnt7Hg2io6N2kzmlzM",
-                    "hyperparameters": {
-                        "n_epochs": "auto",
-                        "batch_size": "auto",
-                        "learning_rate_multiplier": "auto"
+                    'object: "fine_tuning.job",
+                    id: "ftjob-G0rwrYUnRwEWPjDRvxByxPxU",
+                    model: "gpt-3.5-turbo-0125",
+                    createdAt: 1723097706,
+                    finishedAt: (),
+                    fineTunedModel: (),
+                    organizationId: "org-Gzp0rlPk9gw4JaNXmPqDJ1H4",
+                    resultFiles: [],
+                    status: "failed",
+                    validationFile: (),
+                    trainingFile: "file-JZMH9Xxnt7Hg2io6N2kzmlzM",
+                    hyperparameters: {
+                        nEpochs: "auto",
+                        "batchSize": "auto",
+                        "learningRateMultiplier": "auto"
                     },
-                    "trained_tokens": null,
-                    "error": {
-                        "code": "invalid_training_file",
-                        "param": "training_file",
-                        "message": "The job failed due to an invalid training file. Expected file to have JSONL format, where every line is a valid JSON dictionary. Line 1 is not a dictionary."
+                    trainedTokens: (),
+                    'error: {
+                        code: "invalid_training_file",
+                        param: "training_file",
+                        message: "The job failed due to an invalid training file. Expected file to have JSONL format, where every line is a valid JSON dictionary. Line 1 is not a dictionary."
                     },
-                    "user_provided_suffix": null,
-                    "seed": 1913581589,
-                    "estimated_finish": null,
-                    "integrations": []
+                    "userProvidedSuffix": (),
+                    seed: 1913581589,
+                    estimatedFinish: (),
+                    integrations: []
                 }
             ],
-            "has_more": false
+            hasMore: false
         };
 
         return response;
@@ -218,36 +218,36 @@ http:Service mockService = service object {
     # [Learn more about fine-tuning](/docs/guides/fine-tuning)
     #
     # + fine_tuning_job_id - The ID of the fine-tuning job.
-    # + return - OK 
+    # + return - OK
     resource function get fine_tuning/jobs/[string fine_tuning_job_id]() returns FineTuningJob {
 
         FineTuningJob response = {
-            "object": "fine_tuning.job",
-            "id": fine_tuning_job_id,
-            "model": "gpt-3.5-turbo-0125",
-            "created_at": 1723097706,
-            "finished_at": null,
-            "fine_tuned_model": null,
-            "organization_id": "org-Gzp0rlPk9gw4JaNXmPqDJ1H4",
-            "result_files": [],
-            "status": "failed",
-            "validation_file": null,
-            "training_file": "file-JZMH9Xxnt7Hg2io6N2kzmlzM",
-            "hyperparameters": {
-                "n_epochs": "auto",
-                "batch_size": "auto",
-                "learning_rate_multiplier": "auto"
+            'object: "fine_tuning.job",
+            id: fine_tuning_job_id,
+            model: "gpt-3.5-turbo-0125",
+            createdAt: 1723097706,
+            finishedAt: (),
+            fineTunedModel: (),
+            organizationId: "org-Gzp0rlPk9gw4JaNXmPqDJ1H4",
+            resultFiles: [],
+            status: "failed",
+            validationFile: (),
+            trainingFile: "file-JZMH9Xxnt7Hg2io6N2kzmlzM",
+            hyperparameters: {
+                nEpochs: "auto",
+                "batchSize": "auto",
+                "learningRateMultiplier": "auto"
             },
-            "trained_tokens": null,
-            "error": {
-                "code": "invalid_training_file",
-                "param": "training_file",
-                "message": "The job failed due to an invalid training file. Expected file to have JSONL format, where every line is a valid JSON dictionary. Line 1 is not a dictionary."
+            trainedTokens: (),
+            'error: {
+                code: "invalid_training_file",
+                param: "training_file",
+                message: "The job failed due to an invalid training file. Expected file to have JSONL format, where every line is a valid JSON dictionary. Line 1 is not a dictionary."
             },
-            "user_provided_suffix": null,
-            "seed": 1913581589,
-            "estimated_finish": null,
-            "integrations": []
+            "userProvidedSuffix": (),
+            seed: 1913581589,
+            estimatedFinish: (),
+            integrations: []
         };
 
         return response;
@@ -258,25 +258,25 @@ http:Service mockService = service object {
     # + fine_tuning_job_id - The ID of the fine-tuning job to get checkpoints for.
     # + after - Identifier for the last checkpoint ID from the previous pagination request.
     # + 'limit - Number of checkpoints to retrieve.
-    # + return - OK 
+    # + return - OK
     resource function get fine_tuning/jobs/[string fine_tuning_job_id]/checkpoints(string? after, int 'limit = 10) returns ListFineTuningJobCheckpointsResponse {
 
         ListFineTuningJobCheckpointsResponse response = {
-            "object": "list",
-            "data": [
+            'object: "list",
+            data: [
                 {
-                    "id": "checkpoint-1",
-                    "created_at": 1723110882,
-                    "object": "fine_tuning.job.checkpoint",
-                    "fine_tuned_model_checkpoint": "gpt-3.5-turbo-0125-1",
-                    "fine_tuning_job_id": fine_tuning_job_id,
-                    "metrics": {
-                        "step": 1
+                    id: "checkpoint-1",
+                    createdAt: 1723110882,
+                    'object: "fine_tuning.job.checkpoint",
+                    fineTunedModelCheckpoint: "gpt-3.5-turbo-0125-1",
+                    fineTuningJobId: fine_tuning_job_id,
+                    metrics: {
+                        step: 1
                     },
-                    "step_number": 2
+                    stepNumber: 2
                 }
             ],
-            "has_more": false
+            hasMore: false
         };
 
         return response;
@@ -287,18 +287,18 @@ http:Service mockService = service object {
     # + fine_tuning_job_id - The ID of the fine-tuning job to get events for.
     # + after - Identifier for the last event from the previous pagination request.
     # + 'limit - Number of events to retrieve.
-    # + return - OK 
+    # + return - OK
     resource function get fine_tuning/jobs/[string fine_tuning_job_id]/events(string? after, int 'limit = 20) returns ListFineTuningJobEventsResponse {
 
         ListFineTuningJobEventsResponse response = {
             "object": "list",
             "data": [
                 {
-                    "id": fine_tuning_job_id,
-                    "created_at": 1723110882,
-                    "level": "warn",
-                    "message": "Fine-tuning job started.",
-                    "object": "fine_tuning.job.event"
+                    id: fine_tuning_job_id,
+                    createdAt: 1723110882,
+                    level: "warn",
+                    message: "Fine-tuning job started.",
+                    'object: "fine_tuning.job.event"
                 }
             ]
         };
@@ -308,7 +308,7 @@ http:Service mockService = service object {
 
     # Lists the currently available models, and provides basic information about each one such as the owner and availability.
     #
-    # + return - OK 
+    # + return - OK
     resource function get models() returns ListModelsResponse {
 
         ListModelsResponse response = {
@@ -335,7 +335,7 @@ http:Service mockService = service object {
     # Retrieves a model instance, providing basic information about the model such as the owner and permissioning.
     #
     # + model - The ID of the model to use for this request
-    # + return - OK 
+    # + return - OK
     resource function get models/[string model]() returns Model {
 
         Model response = {
@@ -358,7 +358,7 @@ http:Service mockService = service object {
     #
     # Please [contact us](https://help.openai.com/) if you need to increase these storage limits.
     #
-    # + return - OK 
+    # + return - OK
     resource function post files(http:Request request) returns OkOpenAIFile {
 
         OkOpenAIFile response = {
@@ -370,7 +370,7 @@ http:Service mockService = service object {
                 bytes: 71,
                 created_at: 1723097702,
                 status: "processed",
-                status_details: null
+                status_details: ()
             },
             headers: {
                 "Content-Type": "application/json"
@@ -386,33 +386,33 @@ http:Service mockService = service object {
     #
     # [Learn more about fine-tuning](/docs/guides/fine-tuning)
     #
-    # + return - OK 
+    # + return - OK
     resource function post fine_tuning/jobs(@http:Payload CreateFineTuningJobRequest payload) returns OkFineTuningJob {
 
         OkFineTuningJob response = {
             body: {
-                "object": "fine_tuning.job",
-                "id": "ftjob-5NikxOY1BsPHxt8Z8YBm8AX1",
-                "model": "gpt-3.5-turbo-0125",
-                "created_at": 1723110882,
-                "finished_at": null,
-                "fine_tuned_model": null,
-                "organization_id": "org-Gzp0rlPk9gw4JaNXmPqDJ1H4",
-                "result_files": [],
-                "status": "validating_files",
-                "validation_file": null,
-                "training_file": "file-JZMH9Xxnt7Hg2io6N2kzmlzM",
-                "hyperparameters": {
-                    "n_epochs": "auto",
-                    "batch_size": "auto",
-                    "learning_rate_multiplier": "auto"
+                'object: "fine_tuning.job",
+                id: "ftjob-5NikxOY1BsPHxt8Z8YBm8AX1",
+                model: "gpt-3.5-turbo-0125",
+                createdAt: 1723110882,
+                finishedAt: (),
+                fineTunedModel: (),
+                organizationId: "org-Gzp0rlPk9gw4JaNXmPqDJ1H4",
+                resultFiles: [],
+                status: "validating_files",
+                validationFile: (),
+                trainingFile: "file-JZMH9Xxnt7Hg2io6N2kzmlzM",
+                hyperparameters: {
+                    nEpochs: "auto",
+                    "batchSize": "auto",
+                    "learningRateMultiplier": "auto"
                 },
-                "trained_tokens": null,
-                "error": {},
-                "user_provided_suffix": null,
-                "seed": 1776549854,
-                "estimated_finish": null,
-                "integrations": []
+                trainedTokens: (),
+                'error: {},
+                "userProvidedSuffix": (),
+                seed: 1776549854,
+                estimatedFinish: (),
+                integrations: []
             },
             headers: {
                 "Content-Type": "application/json"
@@ -426,7 +426,7 @@ http:Service mockService = service object {
 function init() returns error? {
 
     if isLiveServer {
-        log:printInfo("Skiping mock server initialization as the tests are running on live server");
+        log:printInfo("Skipping mock server initialization as the tests are running on live server");
         return;
     }
 
