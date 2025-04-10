@@ -134,7 +134,7 @@ function testListPaginatedFineTuningJobs() returns error? {
 function testCreateFineTuningJob() returns error? {
     CreateFineTuningJobRequest fineTuneRequest = {
         model: modelId,
-        training_file: fileId
+        trainingFile: fileId
     };
 
     FineTuningJob fineTuneResponse = check openAIFinetunes->/fine_tuning/jobs.post(fineTuneRequest);
